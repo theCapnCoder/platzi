@@ -1,7 +1,53 @@
-const Sidebar = () => {
-  return (
-    <div>Sidebar</div>
-  )
-}
+import {
+  Box,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+} from "@mui/material";
+import { useAppSelector } from "../../features/hook";
+import { NavLink } from "react-router-dom";
 
-export default Sidebar
+const Sidebar = () => {
+  const { list } = useAppSelector((state) => state.categories);
+
+  return (
+    <Box>
+      <List
+        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            Nested List Items
+          </ListSubheader>
+        }
+      >
+        {list.map(({ id, name }) => (
+          <ListItemText
+            key={id}
+            sx={{
+              "& .active": { color: "black" },
+              "& .disable": { color: "grey" },
+            }}
+          >
+            <NavLink
+              to={`platzi/categories/${id}`}
+              className={({ isActive }) => {
+                return isActive ? "active" : "disable";
+              }}
+              style={{
+                textDecoration: "none",
+              }}
+            >
+              {name}
+            </NavLink>
+          </ListItemText>
+        ))}
+      </List>
+    </Box>
+  );
+};
+
+export default Sidebar;

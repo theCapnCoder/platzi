@@ -1,4 +1,5 @@
 export const ROUTES = {
-  HOME: "platzi/",  
+  HOME: "platzi",  
   CART: "platzi/cart",
+  CATEGORY: "platzi/categories:id",
 }
