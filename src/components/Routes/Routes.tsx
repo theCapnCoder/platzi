@@ -5,7 +5,7 @@ import Home from "../Home/Home";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route index element={<Home />}></Route>
+      <Route path="platzi" element={<Home />}></Route>
     </Routes>
   );
 };

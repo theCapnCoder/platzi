@@ -1,11 +1,4 @@
-import {
-  Box,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
-} from "@mui/material";
+import { Box, List, ListItemText, ListSubheader } from "@mui/material";
 import { useAppSelector } from "../../features/hook";
 import { NavLink } from "react-router-dom";
 
@@ -19,8 +12,12 @@ const Sidebar = () => {
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Nested List Items
+          <ListSubheader
+            component="div"
+            id="nested-list-subheader"
+            sx={{ fontSize: 24, fontWeight: "bold" }}
+          >
+            Categories
           </ListSubheader>
         }
       >
