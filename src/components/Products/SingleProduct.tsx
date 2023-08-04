@@ -4,14 +4,19 @@ import { useGetProductQuery } from "../../features/api/apiSlice";
 import { ROUTES } from "../../utils/routes";
 import { Box, Typography } from "@mui/material";
 import Product from "./Product";
+import { useDispatch } from "react-redux";
+import { getRelatedProducts } from "../../features/products/productsSlice";
+import { useAppSelector } from "../../features/hook";
+import Products from "./Products";
 
 const SingleProduct = () => {
+  const { related } = useAppSelector((state) => state.products);
+
   const { id } = useParams();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { data, isLoading, isFetching, isSuccess } = useGetProductQuery(id);
-
-  console.log(data);
 
   useEffect(() => {
     if (!isFetching && !isLoading && !isSuccess) {
@@ -19,10 +24,20 @@ const SingleProduct = () => {
     }
   }, [isFetching, isLoading, isSuccess, navigate]);
 
+  useEffect(() => {
+    if (data) {
+      dispatch(getRelatedProducts(data.category.id));
+    }
+  }, [dispatch, data]);
+
   return (
     <Box p={3}>
-      <Typography mb={3} variant="h3">SingleProduct</Typography>
-      <Product />
+      <Typography mb={3} variant="h3">
+        SingleProduct
+      </Typography>
+      {isLoading && <Typography>Loading...</Typography>}
+      {isSuccess && <Product item={data} />}
+      <Products products={related} amount={5} title="Related Products"/>
     </Box>
   );
 };
