@@ -1,5 +1,6 @@
-import { Box, Stack, Typography, Paper, styled } from "@mui/material";
+import { Box, Stack, Typography, Paper, styled, Link } from "@mui/material";
 import { Product } from "../../features/products/productsSlice";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   title: string;
@@ -9,10 +10,15 @@ type Props = {
 
 const Products: React.FC<Props> = ({ title, products, amount }) => {
   const list = products.slice(0, amount);
+  const navigate = useNavigate();
+
+  const goToPage = (id: number) => {
+    navigate(`/platzi/products/${id}`);
+  };
 
   return (
     <Box p={2}>
-      <Typography variant="h3" mb={3}>
+      <Typography variant="h3" mb={3} sx={{ textAlign: "center" }}>
         {title}
       </Typography>
       <Stack
@@ -24,23 +30,32 @@ const Products: React.FC<Props> = ({ title, products, amount }) => {
       >
         {list &&
           list.map(({ id, title, price, images, category }) => (
-            <Paper key={id} sx={{ p: 2, maxWidth: "15%" }}>
-              <Stack>
+            <Paper
+              onClick={() => goToPage(id)}
+              key={id}
+              sx={{ p: 2, maxWidth: "15%", cursor: "pointer" }}
+            >
+              <Box
+                sx={{
+                  maxWidth: 200,
+                  maxHeight: 300,
+                  mb: 1,
+                }}
+              >
                 <Box
                   component={"img"}
                   src={images[0]}
                   sx={{
+                    width: "100%",
+                    height: "100%",
                     margin: "auto",
-                    mb: 1,
-                    width: 200,
-                    height: 300,
                     objectFit: "cover",
                   }}
                 />
                 <Typography>{category.name}</Typography>
                 <Typography>{title}</Typography>
                 <Typography>Price: {price}$</Typography>
-              </Stack>
+              </Box>
             </Paper>
           ))}
       </Stack>
