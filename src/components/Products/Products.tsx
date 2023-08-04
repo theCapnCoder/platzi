@@ -2,14 +2,18 @@ import { Box, Stack, Typography, Paper, styled } from "@mui/material";
 import { Product } from "../../features/products/productsSlice";
 
 type Props = {
+  title: string;
   products: Product[];
+  amount: number;
 };
 
-const Products: React.FC<Props> = ({ products }) => {
+const Products: React.FC<Props> = ({ title, products, amount }) => {
+  const list = products.slice(0, amount);
+
   return (
     <Box p={2}>
       <Typography variant="h3" mb={3}>
-        Products
+        {title}
       </Typography>
       <Stack
         direction={"row"}
@@ -18,9 +22,9 @@ const Products: React.FC<Props> = ({ products }) => {
         spacing={4}
         useFlexGap
       >
-        {products &&
-          products.map(({ id, title, price, images, category }) => (
-            <Paper key={id} sx={{ p: 2 }}>
+        {list &&
+          list.map(({ id, title, price, images, category }) => (
+            <Paper key={id} sx={{ p: 2, maxWidth: "15%" }}>
               <Stack>
                 <Box
                   component={"img"}
