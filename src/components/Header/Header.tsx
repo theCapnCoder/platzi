@@ -1,19 +1,26 @@
-import { Avatar, Box, Stack, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
 import logo from "../../assets/img/logo.webp";
 import { Favorite, ShoppingBag } from "@mui/icons-material";
 import { useAppSelector } from "../../features/hook";
 import { useDispatch } from "react-redux";
-import { toggleForm } from "../../features/user/userSlice";
+import { ToggleAction, toggleForm } from "../../features/user/userSlice";
 
 const Header = () => {
   const { currentUser } = useAppSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const handleCLick = () => {
+  const handleCLick = (type: ToggleAction["payload"]["formType"]) => {
     if (!currentUser) {
-      dispatch(toggleForm(true));
+      dispatch(toggleForm({ showForm: true, formType: type }));
     }
   };
 
@@ -34,14 +41,34 @@ const Header = () => {
           direction={"row"}
           alignItems={"center"}
           spacing={2}
-          onClick={handleCLick}
           sx={{ cursor: "pointer" }}
         >
-          {currentUser ? <Avatar src={currentUser.avatar} /> : <Avatar />}
-          <Typography>{currentUser?.name || "User"}</Typography>
+          <Stack direction={"row"} spacing={1}>
+            {currentUser ? (
+              <>
+                <Avatar src={currentUser?.avatar} />
+                <Typography>{currentUser.name}</Typography>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={() => handleCLick("login")}
+                  variant="contained"
+                >
+                  Login
+                </Button>
+                <Button
+                  onClick={() => handleCLick("signup")}
+                  variant="contained"
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
+          </Stack>
         </Stack>
 
-        <TextField></TextField>
+        <TextField placeholder="Search"></TextField>
 
         <Stack direction={"row"} spacing={1}>
           <Favorite />
