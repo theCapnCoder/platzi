@@ -7,7 +7,7 @@ type User = {
   email: string;
   password: string;
   avatar: string;
-}
+};
 
 type CurrentUser = {
   email: string;
@@ -18,7 +18,12 @@ type CurrentUser = {
   id: number;
   creationAt: string;
   updatedAt: string;
-}
+};
+
+type LoginUser = {
+  email: string;
+  password: string;
+};
 
 export const createUser = createAsyncThunk(
   "user/createUser",
@@ -26,6 +31,28 @@ export const createUser = createAsyncThunk(
     try {
       const response = await axios.post(`${BASE_URL}/users`, payload);
       const data = await response.data;
+      return data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const loginUser = createAsyncThunk(
+  "user/loginUser",
+  async (payload: LoginUser, thunkAPI) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/auth/login`, payload);
+      const accessToken = response.data.access_token;
+
+      const login = await axios(`${BASE_URL}/auth/profile`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const data = login.data;
       return data;
     } catch (error) {
       console.log(error);
@@ -48,6 +75,13 @@ const initialState: InitState = {
   isLoading: false,
   formType: "signup",
   showForm: false,
+};
+
+export type ToggleAction = {
+  payload: {
+    showForm: boolean;
+    formType: "login" | "signup";
+  };
 };
 
 const userSlice = createSlice({
@@ -75,8 +109,10 @@ const userSlice = createSlice({
       console.log(newCart);
       state.cart = newCart;
     },
-    toggleForm: (state, { payload }) => {
-      state.showForm = payload;
+    toggleForm: (state, action: ToggleAction) => {
+      const { payload } = action;
+      state.showForm = payload.showForm;
+      state.formType = payload.formType;
     },
   },
   extraReducers: (builder) => {
@@ -84,6 +120,9 @@ const userSlice = createSlice({
     //   state.isLoading = true
     // })
     builder.addCase(createUser.fulfilled, (state, action) => {
+      state.currentUser = action.payload;
+    });
+    builder.addCase(loginUser.fulfilled, (state, action) => {
       state.currentUser = action.payload;
     });
     // builder.addCase(getUser.rejected, (state) => {
