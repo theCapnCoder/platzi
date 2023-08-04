@@ -1,42 +1,43 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "../../features/user/userSlice";
+import { type } from "os";
+import { useNavigate } from "react-router-dom";
 
-const Product = () => {
-  const product = {
-    id: 14,
-    title: "Licensed Metal Ball",
-    price: 328,
-    description:
-      "New ABC 13 9370, 13.3, 5th Gen CoreA5-8250U, 8GB RAM, 256GB SSD, power UHD Graphics, OS 10 Home, OS Office A & J 2016",
-    images: [
-      "https://picsum.photos/640/640?r=7734",
-      "https://picsum.photos/640/640?r=2181",
-      "https://picsum.photos/640/640?r=1231",
-    ],
-    creationAt: "2023-08-03T12:57:25.000Z",
-    updatedAt: "2023-08-03T12:57:25.000Z",
-    category: {
-      id: 2,
-      name: "Electronics",
-      image: "https://picsum.photos/640/640?r=6454",
-      creationAt: "2023-08-03T12:57:25.000Z",
-      updatedAt: "2023-08-03T12:57:25.000Z",
-    },
+type Props = {
+  item: {
+    title: string;
+    price: number;
+    images: string[];
+    description: string;
   };
+};
+
+const Product: React.FC<Props> = ({ item }) => {
+  console.log(item);
+  const { title, price, images, description } = item;
 
   const [currentImage, setCurrentImage] = React.useState(0);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const addToCart = () => {
+    dispatch(addItemToCart(item));
+  };
 
   return (
     <Stack direction={"row"} spacing={3}>
       <Box
         component={"img"}
-        src={product.images[currentImage]}
+        src={images[currentImage]}
         sx={{ width: "40%", objectFit: "cover" }}
       />
 
       <Stack spacing={2}>
-        {product.images.map((image, idx) => (
+        {images.map((image, idx) => (
           <Box
+            key={idx}
             onClick={() => {
               setCurrentImage(idx);
             }}
@@ -59,15 +60,22 @@ const Product = () => {
       </Stack>
 
       <Stack spacing={1}>
-        <Typography variant="h4">{product.title}</Typography>
-        <Typography variant="h5">{product.price}$</Typography>
+        <Typography variant="h4">{title}</Typography>
+        <Typography variant="h5">{price}$</Typography>
         <Typography variant="h6">Color: Green</Typography>
-        <Typography>Category: {product.description}</Typography>
+        <Typography>Category: {description}</Typography>
 
         <Stack direction={"row"} spacing={2}>
-          <Button variant="contained">Add to cart</Button>
-          <Button variant="contained" color="warning">Add to favourites</Button>
+          <Button onClick={addToCart} variant="contained">
+            Add to cart
+          </Button>
+          <Button variant="contained" color="warning">
+            Add to favourites
+          </Button>
         </Stack>
+        <Button onClick={() => navigate(-1)} variant="contained">
+          Back
+        </Button>
       </Stack>
     </Stack>
   );
