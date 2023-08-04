@@ -4,16 +4,21 @@ import { useAppDispatch, useAppSelector } from "../../features/hook";
 import Categories from "../Categories/Categories";
 import { useEffect } from "react";
 import { filterByPrice } from "../../features/products/productsSlice";
+import UserSignupForm from "../User/UserSignupForm";
+import { toggleForm } from "../../features/user/userSlice";
 
 const Home = () => {
-  const {products,  products: {list, filtered}, categories} = useAppSelector((state) => state);
+  const {
+    products,
+    products: { list, filtered },
+    categories,
+  } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if(!list.length) return;
+    if (!list.length) return;
 
-    dispatch(filterByPrice(100))
-    
+    dispatch(filterByPrice(100));
   }, [dispatch, list.length]);
 
   return (
