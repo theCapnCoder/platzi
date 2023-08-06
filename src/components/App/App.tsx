@@ -5,24 +5,46 @@ import Footer from "../Footer/Footer";
 import Sidebar from "../Sidebar/Sidebar";
 import { useEffect } from "react";
 import { getCategories } from "../../features/categories/categoriesSlice";
-import { useAppDispatch } from "../../features/hook";
+import { useAppDispatch, useAppSelector } from "../../features/hook";
+import { getProducts } from "../../features/products/productsSlice";
+import UserSignupForm from "../User/UserSignupForm";
+import { toggleForm } from "../../features/user/userSlice";
+import UserLoginForm from "../User/UserLoginForm";
 
 function App() {
   const dispatch = useAppDispatch();
+  const { formType } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(getCategories());
+    dispatch(getProducts());
   }, [dispatch]);
 
   return (
     <Box>
       <Header />
 
+      {formType === "signup" && (
+        <UserSignupForm
+          onClose={() =>
+            dispatch(toggleForm({ showForm: false, formType: "signup" }))
+          }
+        />
+      )}
+
+      {formType === "login" && (
+        <UserLoginForm
+          onClose={() =>
+            dispatch(toggleForm({ showForm: false, formType: "login" }))
+          }
+        />
+      )}
+
       <Stack direction={"row"}>
         <Sidebar />
         <AppRoutes />
       </Stack>
-      
+
       <Footer />
     </Box>
   );
