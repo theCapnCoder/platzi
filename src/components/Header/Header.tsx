@@ -21,13 +21,36 @@ import { useGetProductsQuery } from "../../features/api/apiSlice";
 import React from "react";
 import Search from "./Search";
 
+type Category = {
+  id: number;
+  name: string;
+  image: string;
+  creationAt: string;
+  updatedAt: string;
+};
+
+type Product = {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  images: string[];
+  creationAt: string;
+  updatedAt: string;
+  category: Category;
+};
+
 const Header = () => {
   const { currentUser } = useAppSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const [searchValue, setSearchValue] = useState("");
 
-  const { data: products = [], isLoading } = useGetProductsQuery({
+  const {
+    data: products = [],
+    isLoading,
+    isSuccess,
+  } = useGetProductsQuery({
     title: searchValue,
   });
   console.log(products);
@@ -35,8 +58,6 @@ const Header = () => {
   // const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setSearchValue(e.target.value);
   // };
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleValueChange = (event: React.ChangeEvent<{}>, name: string) => {
     if (name !== null) {
@@ -96,10 +117,54 @@ const Header = () => {
           </Stack>
         </Stack>
 
-        <TextField
-          placeholder="Search"
-          sx={{ width: 300, "& .MuiInputBase-input": { py: 1 } }}
-        />
+        <Box>
+          <TextField
+            placeholder="Search"
+            sx={{
+              position: "relative",
+              width: 300,
+              "& .MuiInputBase-input": { py: 1 },
+            }}
+          />
+
+          {isSuccess && (
+            <Stack spacing={1} sx={{ position: "absolute" }}>
+              {(products as Product[]).map(({ id, title, images }) => (
+                <Link
+                  to={`platzi/categories/${id}`}
+                  style={{
+                    textDecoration: "none",
+                    cursor: "pointer",
+                    color: "black",
+                  }}
+                >
+                  <Stack
+                    direction={"row"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                  >
+                    <Box sx={{width: 50, height: 50}}>
+                      <Box
+                        component={"img"}
+                        src={images[0]}
+                        sx={{
+                          flexShrink: 1,
+                          flexGrow: 0,
+                          mr: 1,
+                          margin: "auto",
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </Box>
+                    {title}
+                  </Stack>
+                </Link>
+              ))}
+            </Stack>
+          )}
+        </Box>
 
         <Stack direction={"row"} spacing={1}>
           <Favorite />
