@@ -8,6 +8,7 @@ import {
   Link as MuLink,
   Autocomplete,
   CircularProgress,
+  Paper,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
@@ -128,41 +129,41 @@ const Header = () => {
           />
 
           {isSuccess && (
-            <Stack spacing={1} sx={{ position: "absolute" }}>
-              {(products as Product[]).map(({ id, title, images }) => (
-                <Link
-                  to={`platzi/categories/${id}`}
-                  style={{
-                    textDecoration: "none",
-                    cursor: "pointer",
-                    color: "black",
-                  }}
-                >
-                  <Stack
-                    direction={"row"}
-                    justifyContent={"center"}
-                    alignItems={"center"}
+            <Paper
+              elevation={10}
+              sx={{ p: 1, width: 300, position: "absolute", borderRadius: 3 }}
+            >
+              <Stack spacing={1} sx={{ maxHeight: 300, overflow: "auto" }}>
+                {(products as Product[]).map(({ id, title, images }) => (
+                  <Link
+                    to={`platzi/categories/${id}`}
+                    style={{
+                      textDecoration: "none",
+                      cursor: "pointer",
+                      color: "black",
+                    }}
                   >
-                    <Box sx={{width: 50, height: 50}}>
-                      <Box
-                        component={"img"}
-                        src={images[0]}
-                        sx={{
-                          flexShrink: 1,
-                          flexGrow: 0,
-                          mr: 1,
-                          margin: "auto",
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
-                      />
-                    </Box>
-                    {title}
-                  </Stack>
-                </Link>
-              ))}
-            </Stack>
+                    <Stack direction={"row"} spacing={1} alignItems={"center"}>
+                      <Box sx={{ width: 50, height: 50 }}>
+                        <Box
+                          component={"img"}
+                          src={images[0]}
+                          sx={{
+                            flexShrink: 1,
+                            flexGrow: 0,
+                            margin: "auto",
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </Box>
+                      <Typography>{title}</Typography>
+                    </Stack>
+                  </Link>
+                ))}
+              </Stack>
+            </Paper>
           )}
         </Box>
 
