@@ -5,6 +5,7 @@ import {
   Stack,
   TextField,
   Typography,
+  Link as MuLink,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
@@ -45,10 +46,12 @@ const Header = () => {
         >
           <Stack direction={"row"} spacing={1}>
             {currentUser ? (
-              <>
-                <Avatar src={currentUser?.avatar} />
-                <Typography>{currentUser.name}</Typography>
-              </>
+              <MuLink href={ROUTES.PROFILE} underline="none">
+                <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                  <Avatar src={currentUser?.avatar} />
+                  <Typography>{currentUser.name}</Typography>
+                </Stack>
+              </MuLink>
             ) : (
               <>
                 <Button
