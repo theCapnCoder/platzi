@@ -1,4 +1,10 @@
-import { Box, List, ListItemText, ListSubheader } from "@mui/material";
+import {
+  Box,
+  List,
+  ListItemText,
+  ListSubheader,
+  Typography,
+} from "@mui/material";
 import { useAppSelector } from "../../features/hook";
 import { NavLink } from "react-router-dom";
 
@@ -15,32 +21,82 @@ const Sidebar = () => {
           <ListSubheader
             component="div"
             id="nested-list-subheader"
-            sx={{ fontSize: 24, fontWeight: "bold" }}
+            sx={{ fontSize: 20, fontWeight: "bold" }}
           >
-            Categories
+            Categories{" "}
+            <Box component={"span"} sx={{ fontSize: 12 }}>
+              (Api)
+            </Box>
+          </ListSubheader>
+        }
+      >
+        <ListItemText
+          sx={{
+            px: 2,
+            "& .active": { color: "black" },
+            "& .disable": { color: "grey" },
+          }}
+        >
+          <NavLink
+            to={`platzi/products/`}
+            className={({ isActive }) => {
+              return isActive ? "active" : "disable";
+            }}
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <Typography>Products</Typography>
+          </NavLink>
+        </ListItemText>
+      </List>
+
+      <List
+        sx={{
+          width: "100%",
+          maxWidth: 360,
+          bgcolor: "background.paper",
+          "& a": { color: "grey" },
+          "& a.active": { color: "black" },
+        }}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <ListSubheader
+            component="div"
+            id="nested-list-subheader"
+            sx={{ fontSize: 18, fontWeight: "bold" }}
+          >
+            Categories{" "}
+            <Box component={"span"} sx={{ fontSize: 12 }}>
+              (Users)
+            </Box>
           </ListSubheader>
         }
       >
         {list.map(({ id, name }) => (
-          <ListItemText
-            key={id}
-            sx={{
-              "& .active": { color: "black" },
-              "& .disable": { color: "grey" },
+          <NavLink
+            to={`platzi/categories/${id}`}
+            className={({ isActive }) => {
+              return isActive ? "active" : "";
+            }}
+            style={{
+              textDecoration: "none",
             }}
           >
-            <NavLink
-              to={`platzi/categories/${id}`}
-              className={({ isActive }) => {
-                return isActive ? "active" : "disable";
+            <ListItemText
+              key={id}
+              primary={name}
+              sx={{
+                px: 2,
+                cursor: "pointer",
+                ":hover": {
+                  backgroundColor: "lightgray",
+                  borderRadius: 4,
+                },
               }}
-              style={{
-                textDecoration: "none",
-              }}
-            >
-              {name}
-            </NavLink>
-          </ListItemText>
+            ></ListItemText>
+          </NavLink>
         ))}
       </List>
     </Box>
