@@ -129,6 +129,9 @@ const userSlice = createSlice({
       state.showForm = payload.showForm;
       state.formType = payload.formType;
     },
+    deleteCurrentUser: (state) => {
+      state.currentUser = null;
+    }
   },
   extraReducers: (builder) => {
     // builder.addCase(getUser.pending, (state) => {
@@ -149,6 +152,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { addItemToCart, toggleForm } = userSlice.actions;
+export const { addItemToCart, toggleForm, deleteCurrentUser } = userSlice.actions;
 
 export default userSlice.reducer;
