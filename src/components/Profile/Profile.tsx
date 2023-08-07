@@ -1,7 +1,8 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../features/hook";
 import { useEffect, useState } from "react";
 import { updateUser } from "../../features/user/userSlice";
+import { redirect, useNavigate } from "react-router-dom";
 
 type FormData = {
   name: string;
@@ -12,6 +13,7 @@ type FormData = {
 
 const Profile = () => {
   const { currentUser } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -87,9 +89,25 @@ const Profile = () => {
             margin="normal"
             sx={{ mb: 3 }}
           />
-          <Button type="submit" variant="contained" color="primary">
-            Update
-          </Button>
+
+          <Stack spacing={2} direction={"row"}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{ minWidth: 100 }}
+            >
+              Update
+            </Button>
+            <Button
+              onClick={() => navigate(-1)}
+              variant="contained"
+              color="primary"
+              sx={{ minWidth: 100 }}
+            >
+              Back
+            </Button>
+          </Stack>
         </form>
       )}
     </Box>
