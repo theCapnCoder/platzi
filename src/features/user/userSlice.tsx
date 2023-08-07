@@ -107,9 +107,7 @@ const userSlice = createSlice({
   reducers: {
     addItemToCart: (state, { payload }) => {
       let newCart = [...state.cart];
-      console.log(newCart);
       const found = state.cart.find(({ id }) => id === payload.id);
-      console.log(found);
       if (found) {
         newCart = newCart.map((item) => {
           return item.id === payload.id
