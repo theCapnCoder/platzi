@@ -72,16 +72,6 @@ const Search = () => {
             </>
           ),
         }}
-        //  InputProps={{
-        //     ...params.InputProps,
-        //     endAdornment: (
-        //       <>
-        //         {isLoading ? (
-        //           <CircularProgress color="inherit" size={20} />
-        //         ) : null}
-        //         {params.InputProps.endAdornment}
-        //       </>
-        //     ),
       />
 
       {isSuccess && Boolean(searchValue.length) && products.length ? (
@@ -93,6 +83,7 @@ const Search = () => {
             {(products as Product[]).map(({ id, title, images }) => (
               <Link
                 to={`platzi/products/${id}`}
+                onClick={() => setSearchValue("")}
                 style={{
                   textDecoration: "none",
                   cursor: "pointer",
