@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { useGetProductsQuery } from "../../features/api/apiSlice";
-import { Box, Paper, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
+import { Close } from "@mui/icons-material";
 
 type Category = {
   id: number;
@@ -27,8 +35,8 @@ const Search = () => {
 
   const {
     data: products = [],
-    isLoading,
     isSuccess,
+    isLoading,
   } = useGetProductsQuery({
     title: searchValue,
   });
@@ -42,12 +50,38 @@ const Search = () => {
     <Box>
       <TextField
         placeholder="Search"
+        value={searchValue}
         onChange={handleValueChange}
         sx={{
           position: "relative",
           width: 300,
           "& .MuiInputBase-input": { py: 1 },
         }}
+        InputProps={{
+          endAdornment: (
+            <>
+              {isLoading ? (
+                <CircularProgress color="inherit" size={20} />
+              ) : (
+                <Close
+                  fontSize="small"
+                  onClick={() => setSearchValue("")}
+                  sx={{ cursor: "pointer" }}
+                />
+              )}
+            </>
+          ),
+        }}
+        //  InputProps={{
+        //     ...params.InputProps,
+        //     endAdornment: (
+        //       <>
+        //         {isLoading ? (
+        //           <CircularProgress color="inherit" size={20} />
+        //         ) : null}
+        //         {params.InputProps.endAdornment}
+        //       </>
+        //     ),
       />
 
       {isSuccess && Boolean(searchValue.length) && products.length ? (
