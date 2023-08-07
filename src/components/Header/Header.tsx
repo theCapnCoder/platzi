@@ -19,18 +19,40 @@ const Header = () => {
   };
 
   return (
-    <Stack direction={"row"}>
-      <Box flexGrow={1} sx={{ maxWidth: 100 }}>
-        <Link to={ROUTES.HOME}>
+    <Stack
+      direction={"row"}
+      alignItems={"center"}
+      sx={{
+        py: 3,
+        px: 5,
+        backgroundColor: "lightgray",
+        borderRadius: 4,
+      }}
+    >
+      <Box flexGrow={1} sx={{ maxWidth: 130, margin: "auto 0" }}>
+        <Link to={ROUTES.HOME} style={{ margin: "auto 0" }}>
           <Box
-            component={"img"}
-            src={logo}
-            sx={{ width: 50, height: 50, borderRadius: 2 }}
-          />
+            sx={{
+              cursor: "pointer",
+              width: 50,
+              height: 50,
+            }}
+          >
+            <Box
+              component={"img"}
+              src={logo}
+              sx={{ width: "100%", height: "100%", borderRadius: 2 }}
+            />
+          </Box>
         </Link>
       </Box>
 
-      <Stack direction={"row"} justifyContent={"space-between"} flexGrow={1}>
+      <Stack
+        direction={"row"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        flexGrow={1}
+      >
         <Stack
           direction={"row"}
           alignItems={"center"}
