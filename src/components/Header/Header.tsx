@@ -1,12 +1,4 @@
-import React from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  Stack,
-  Typography,
-  Link as MuLink,
-} from "@mui/material";
+import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
 import logo from "../../assets/img/logo.webp";
@@ -47,12 +39,19 @@ const Header = () => {
         >
           <Stack direction={"row"} spacing={1}>
             {currentUser ? (
-              <MuLink href={ROUTES.PROFILE} underline="none">
+              <Link
+                to={ROUTES.PROFILE}
+                style={{
+                  textDecoration: "none",
+                  cursor: "pointer",
+                  color: "black",
+                }}
+              >
                 <Stack direction={"row"} alignItems={"center"} spacing={1}>
                   <Avatar src={currentUser?.avatar} />
                   <Typography>{currentUser.name}</Typography>
                 </Stack>
-              </MuLink>
+              </Link>
             ) : (
               <>
                 <Button
