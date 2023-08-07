@@ -1,8 +1,8 @@
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../features/hook";
 import { useEffect, useState } from "react";
-import { updateUser } from "../../features/user/userSlice";
-import { redirect, useNavigate } from "react-router-dom";
+import { deleteCurrentUser, updateUser } from "../../features/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 type FormData = {
   name: string;
@@ -37,6 +37,10 @@ const Profile = () => {
       ...prevData,
       [key]: value,
     }));
+  };
+
+  const logout = () => {
+    dispatch(deleteCurrentUser());
   };
 
   useEffect(() => {
@@ -90,22 +94,28 @@ const Profile = () => {
             sx={{ mb: 3 }}
           />
 
-          <Stack spacing={2} direction={"row"}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{ minWidth: 100 }}
-            >
-              Update
-            </Button>
-            <Button
-              onClick={() => navigate(-1)}
-              variant="contained"
-              color="primary"
-              sx={{ minWidth: 100 }}
-            >
-              Back
+          <Stack spacing={2} direction={"row"} justifyContent={"space-between"}>
+            <Stack direction={"row"} spacing={1}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ minWidth: 100 }}
+              >
+                Update
+              </Button>
+              <Button
+                onClick={() => navigate(-1)}
+                variant="contained"
+                color="primary"
+                sx={{ minWidth: 100 }}
+              >
+                Back
+              </Button>
+            </Stack>
+
+            <Button variant="contained" color="error" onClick={logout}>
+              Logout
             </Button>
           </Stack>
         </form>
