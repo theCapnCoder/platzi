@@ -22,49 +22,13 @@ import { useGetProductsQuery } from "../../features/api/apiSlice";
 import React from "react";
 import Search from "./Search";
 
-type Category = {
-  id: number;
-  name: string;
-  image: string;
-  creationAt: string;
-  updatedAt: string;
-};
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  images: string[];
-  creationAt: string;
-  updatedAt: string;
-  category: Category;
-};
-
 const Header = () => {
   const { currentUser } = useAppSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const [searchValue, setSearchValue] = useState("");
-
-  const {
-    data: products = [],
-    isLoading,
-    isSuccess,
-  } = useGetProductsQuery({
-    title: searchValue,
-  });
-  console.log(products);
-
   // const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setSearchValue(e.target.value);
   // };
-
-  const handleValueChange = (event: React.ChangeEvent<{}>, name: string) => {
-    if (name !== null) {
-      // setSearchValue(() => name);
-    }
-  };
 
   const handleCLick = (type: ToggleAction["payload"]["formType"]) => {
     if (!currentUser) {
@@ -118,54 +82,7 @@ const Header = () => {
           </Stack>
         </Stack>
 
-        <Box>
-          <TextField
-            placeholder="Search"
-            sx={{
-              position: "relative",
-              width: 300,
-              "& .MuiInputBase-input": { py: 1 },
-            }}
-          />
-
-          {isSuccess && (
-            <Paper
-              elevation={10}
-              sx={{ p: 1, width: 300, position: "absolute", borderRadius: 3 }}
-            >
-              <Stack spacing={1} sx={{ maxHeight: 300, overflow: "auto" }}>
-                {(products as Product[]).map(({ id, title, images }) => (
-                  <Link
-                    to={`platzi/categories/${id}`}
-                    style={{
-                      textDecoration: "none",
-                      cursor: "pointer",
-                      color: "black",
-                    }}
-                  >
-                    <Stack direction={"row"} spacing={1} alignItems={"center"}>
-                      <Box sx={{ width: 50, height: 50 }}>
-                        <Box
-                          component={"img"}
-                          src={images[0]}
-                          sx={{
-                            flexShrink: 1,
-                            flexGrow: 0,
-                            margin: "auto",
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </Box>
-                      <Typography>{title}</Typography>
-                    </Stack>
-                  </Link>
-                ))}
-              </Stack>
-            </Paper>
-          )}
-        </Box>
+        <Search />
 
         <Stack direction={"row"} spacing={1}>
           <Favorite />
