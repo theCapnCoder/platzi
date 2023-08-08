@@ -15,7 +15,6 @@ type Props = {
 };
 
 const Product: React.FC<Props> = ({ item }) => {
-  console.log(item);
   const { title, price, images, description } = item;
 
   const [currentImage, setCurrentImage] = React.useState(0);
