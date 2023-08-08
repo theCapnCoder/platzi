@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useGetProductsQuery } from "../../features/api/apiSlice";
 import {
-  Autocomplete,
   Box,
   CircularProgress,
   Paper,
@@ -72,37 +71,6 @@ const Search = () => {
             </>
           ),
         }}
-      />
-
-      <Autocomplete
-        sx={{ width: 300 }}
-        options={products}
-        getOptionLabel={(option: Product) => option.id.toString()}
-        renderInput={(params) => (
-          <TextField {...params} onChange={() => console.log({ params })} />
-        )}
-        // renderOption={(props, option) => {
-        //   return <Text {...props}>{option.name}</Text>;
-        // }}
-        renderOption={(props, option) => (
-          <Box component={"li"} {...props}>
-            <Box sx={{ width: 50, height: 50 }}>
-              <Box
-                component={"img"}
-                src={option.images[0]}
-                sx={{
-                  flexShrink: 1,
-                  flexGrow: 0,
-                  margin: "auto",
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            </Box>
-            <Typography>{option.title}</Typography>
-          </Box>
-        )}
       />
 
       {isSuccess && Boolean(searchValue.length) && products.length ? (
