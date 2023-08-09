@@ -1,37 +1,39 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
-import { useAppSelector } from "../../features/hook";
+import { useAppDispatch, useAppSelector } from "../../features/hook";
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { getProductsByCategory } from "../../features/products/actionCreators/getProductsByCategory";
+import Products from "../Products/Products";
 
 const Category = () => {
-  const { categories } = useAppSelector((state) => state);
-  const { isLoading } = useAppSelector((state) => state.categories);
-  const { id } = useParams();
+  const categories = useAppSelector((state) => state.categories);
+  const isLoadingCategories = categories.isLoading;
+  const { isLoading: isLoadingProducts, list } = useAppSelector(
+    (state) => state.products
+  );
 
-  const nameCategory = isLoading
-    ? categories.list.find((item) => item.id === Number(id))?.name
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
+
+  const nameCategory = isLoadingCategories
+    ? categories.list.find((item) => item.id === Number(id))?.name || ""
     : "";
 
+  useEffect(() => {
+    if (id) {
+      dispatch(getProductsByCategory({ id: Number(id) }));
+    }
+  }, [id, dispatch]);
 
   return (
     <Box>
-      {isLoading ? (
-        // <Box>{categories.list.find((id) => id.id === +id)}</Box>
-        <Typography>
-          <div>
-            {/* <pre>{JSON.stringify(categories.list, null, 2)}</pre> */}
-            {/* <Typography>
-              <ul>
-                {categories.list.find((item) => {
-                  return <li>{item.name}</li>;
-                })}
-              </ul>
-            </Typography> */}
-
-            <Typography>{nameCategory}</Typography>
-          </div>
-        </Typography>
-      ) : null}
+      {isLoadingProducts ? (
+        <Typography>Loading...</Typography>
+      ) : (
+        <Box>
+          <Products products={list} amount={10} title={nameCategory} />
+        </Box>
+      )}
     </Box>
   );
 };

@@ -6,7 +6,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useAppSelector } from "../../features/hook";
-import { NavLink } from "react-router-dom";
 import { ListBar } from "./ListBar";
 
 const Sidebar = () => {

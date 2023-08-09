@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { filterByPrice } from "../../features/products/productsSlice";
 import UserSignupForm from "../User/UserSignupForm";
 import { toggleForm } from "../../features/user/userSlice";
+import { getProducts } from "../../features/products/actionCreators/getProducts";
 
 const Home = () => {
   const {
@@ -14,6 +15,10 @@ const Home = () => {
     categories,
   } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!list.length) return;

@@ -1,47 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL } from "../../utils/constants";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 import { shuffle } from "../../utils/common";
-
-export const getProducts = createAsyncThunk(
-  "products/getProducts",
-  async (_, thunkAPI) => {
-    try {
-      const response = await axios(`${BASE_URL}/products`);
-      const data = await response.data;
-      return data;
-    } catch (error) {
-      console.log(error);
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
-export type Category = {
-  id: number;
-  name: string;
-  image: string;
-  creationAt: string;
-  updatedAt: string;
-};
-
-export type Product = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  images: Array<string>;
-  creationAt: string;
-  updatedAt: string;
-  category: Category;
-};
-
-type InitState = {
-  list: Product[];
-  filtered: any[];
-  related: any[];
-  isLoading: boolean;
-};
+import { getProducts } from "./actionCreators/getProducts";
+import { InitState } from "./types";
+import { getProductsByCategory } from "./actionCreators/getProductsByCategory";
 
 const initialState: InitState = {
   list: [],
@@ -70,10 +31,23 @@ const productsSlice = createSlice({
     });
     builder.addCase(getProducts.fulfilled, (state, action) => {
       state.list = action.payload;
+      state.isLoading = false;
     });
     builder.addCase(getProducts.rejected, (state) => {
       state.isLoading = false;
     });
+
+    builder.addCase(getProductsByCategory.pending, (state) => {
+      state.isLoading = true;
+    })
+    builder.addCase(getProductsByCategory.fulfilled, (state, action) => {
+      state.list = action.payload;
+      console.log(action.payload);
+      state.isLoading = false;
+    });
+    builder.addCase(getProductsByCategory.rejected, (state) => {
+      state.isLoading = false;
+    })
   },
 });
 
