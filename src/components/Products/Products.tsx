@@ -1,7 +1,6 @@
 import { Box, Stack, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Product } from "../../features/products/types";
-import { useEffect } from "react";
 
 type Props = {
   title: string;

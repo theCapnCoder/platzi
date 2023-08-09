@@ -1,10 +1,4 @@
-import {
-  Box,
-  List,
-  ListItemText,
-  ListSubheader,
-  Typography,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import { useAppSelector } from "../../features/hook";
 import { ListBar } from "./ListBar";
 

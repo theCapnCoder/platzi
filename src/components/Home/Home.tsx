@@ -1,11 +1,9 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import Products from "../Products/Products";
 import { useAppDispatch, useAppSelector } from "../../features/hook";
 import Categories from "../Categories/Categories";
 import { useEffect } from "react";
 import { filterByPrice } from "../../features/products/productsSlice";
-import UserSignupForm from "../User/UserSignupForm";
-import { toggleForm } from "../../features/user/userSlice";
 import { getProducts } from "../../features/products/actionCreators/getProducts";
 
 const Home = () => {
