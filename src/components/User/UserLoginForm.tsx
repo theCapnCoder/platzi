@@ -13,10 +13,12 @@ type Props = {
 };
 
 const UserLoginForm: React.FC<Props> = ({ onClose }) => {
-  const [formData, setFormData] = useState<FormData>({
+  const initFormData = {
     email: "",
     password: "",
-  });
+  };
+
+  const [formData, setFormData] = useState<FormData>(initFormData);
 
   const [disabled, setDisabled] = useState(true);
   const { showForm } = useAppSelector((state) => state.user);
@@ -39,15 +41,13 @@ const UserLoginForm: React.FC<Props> = ({ onClose }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    setFormData(initFormData);
     dispatch(loginUser(formData));
     onClose();
   };
 
   const hanldeClose = () => {
-    setFormData({
-      email: "",
-      password: "",
-    });
+    setFormData(initFormData);
     onClose();
   };
 

@@ -21,7 +21,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Box>
+    <Box sx={{ p: 4 }}>
       <Header />
 
       {formType === "signup" && (

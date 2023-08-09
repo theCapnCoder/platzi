@@ -1,12 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Stack,
-  TextField,
-  Typography,
-  Link as MuLink,
-} from "@mui/material";
+import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
 import logo from "../../assets/img/logo.webp";
@@ -14,6 +6,7 @@ import { Favorite, ShoppingBag } from "@mui/icons-material";
 import { useAppSelector } from "../../features/hook";
 import { useDispatch } from "react-redux";
 import { ToggleAction, toggleForm } from "../../features/user/userSlice";
+import Search from "./Search";
 
 const Header = () => {
   const { currentUser } = useAppSelector((state) => state.user);
@@ -26,18 +19,40 @@ const Header = () => {
   };
 
   return (
-    <Stack direction={"row"}>
-      <Box flexGrow={1} sx={{ maxWidth: 100 }}>
-        <Link to={ROUTES.HOME}>
+    <Stack
+      direction={"row"}
+      alignItems={"center"}
+      sx={{
+        py: 3,
+        px: 5,
+        backgroundColor: "lightgray",
+        borderRadius: 4,
+      }}
+    >
+      <Box flexGrow={1} sx={{ maxWidth: 130, margin: "auto 0" }}>
+        <Link to={ROUTES.HOME} style={{ margin: "auto 0" }}>
           <Box
-            component={"img"}
-            src={logo}
-            sx={{ width: 50, height: 50, borderRadius: 2 }}
-          />
+            sx={{
+              cursor: "pointer",
+              width: 50,
+              height: 50,
+            }}
+          >
+            <Box
+              component={"img"}
+              src={logo}
+              sx={{ width: "100%", height: "100%", borderRadius: 2 }}
+            />
+          </Box>
         </Link>
       </Box>
 
-      <Stack direction={"row"} justifyContent={"space-between"} flexGrow={1}>
+      <Stack
+        direction={"row"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        flexGrow={1}
+      >
         <Stack
           direction={"row"}
           alignItems={"center"}
@@ -46,12 +61,19 @@ const Header = () => {
         >
           <Stack direction={"row"} spacing={1}>
             {currentUser ? (
-              <MuLink href={ROUTES.PROFILE} underline="none">
+              <Link
+                to={ROUTES.PROFILE}
+                style={{
+                  textDecoration: "none",
+                  cursor: "pointer",
+                  color: "black",
+                }}
+              >
                 <Stack direction={"row"} alignItems={"center"} spacing={1}>
                   <Avatar src={currentUser?.avatar} />
                   <Typography>{currentUser.name}</Typography>
                 </Stack>
-              </MuLink>
+              </Link>
             ) : (
               <>
                 <Button
@@ -71,7 +93,7 @@ const Header = () => {
           </Stack>
         </Stack>
 
-        <TextField placeholder="Search"></TextField>
+        <Search />
 
         <Stack direction={"row"} spacing={1}>
           <Favorite />

@@ -107,9 +107,7 @@ const userSlice = createSlice({
   reducers: {
     addItemToCart: (state, { payload }) => {
       let newCart = [...state.cart];
-      console.log(newCart);
       const found = state.cart.find(({ id }) => id === payload.id);
-      console.log(found);
       if (found) {
         newCart = newCart.map((item) => {
           return item.id === payload.id
@@ -131,6 +129,9 @@ const userSlice = createSlice({
       state.showForm = payload.showForm;
       state.formType = payload.formType;
     },
+    deleteCurrentUser: (state) => {
+      state.currentUser = null;
+    }
   },
   extraReducers: (builder) => {
     // builder.addCase(getUser.pending, (state) => {
@@ -151,6 +152,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { addItemToCart, toggleForm } = userSlice.actions;
+export const { addItemToCart, toggleForm, deleteCurrentUser } = userSlice.actions;
 
 export default userSlice.reducer;
