@@ -6,10 +6,10 @@ import Sidebar from "../Sidebar/Sidebar";
 import { useEffect } from "react";
 import { getCategories } from "../../features/categories/categoriesSlice";
 import { useAppDispatch, useAppSelector } from "../../features/hook";
-import { getProducts } from "../../features/products/productsSlice";
 import UserSignupForm from "../User/UserSignupForm";
 import { toggleForm } from "../../features/user/userSlice";
 import UserLoginForm from "../User/UserLoginForm";
+import { getProducts } from "../../features/products/actionCreators/getProducts";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -17,7 +17,6 @@ function App() {
 
   useEffect(() => {
     dispatch(getCategories());
-    dispatch(getProducts());
   }, [dispatch]);
 
   return (
