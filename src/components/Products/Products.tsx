@@ -1,6 +1,6 @@
 import { Box, Stack, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Product } from "../../features/products/types";
+import { Product } from "../../store/products/types";
 
 type Props = {
   title: string;
@@ -33,7 +33,7 @@ const Products: React.FC<Props> = ({ title, products, amount }) => {
             <Paper
               onClick={() => goToPage(id)}
               key={id}
-              sx={{ p: 2, maxWidth: "15%", cursor: "pointer" }}
+              sx={{ p: 2, maxWidth: "100%", cursor: "pointer" }}
             >
               <Box
                 sx={{

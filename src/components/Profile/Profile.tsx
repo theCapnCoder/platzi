@@ -1,7 +1,7 @@
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../features/hook";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { useEffect, useState } from "react";
-import { deleteCurrentUser, updateUser } from "../../features/user/userSlice";
+import { deleteCurrentUser, updateUser } from "../../store/user/userSlice";
 import { useNavigate } from "react-router-dom";
 
 type FormData = {
@@ -57,10 +57,12 @@ const Profile = () => {
   }, [currentUser]);
 
   return (
-    <Box p={2}>
-      <Typography>Profile</Typography>
+    <Box p={2} sx={{ width: "100%", height: "100%", flexShrink: 1 }}>
+      <Typography variant="h3" sx={{ mb: 2 }}>
+        Profile
+      </Typography>
       {!currentUser ? (
-        <Typography>Not logged in</Typography>
+        <Typography variant="h5">Not logged in</Typography>
       ) : (
         <form onSubmit={handleSubmit}>
           <TextField

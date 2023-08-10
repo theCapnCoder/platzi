@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useAppSelector } from "../../features/hook";
+import { useAppSelector } from "../../store/hook";
 import { ListBar } from "./ListBar";
 
 const Sidebar = () => {

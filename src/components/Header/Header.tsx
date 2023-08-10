@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { ROUTES } from "../../utils/routes";
 import logo from "../../assets/img/logo.webp";
 import { Favorite, ShoppingBag } from "@mui/icons-material";
-import { useAppSelector } from "../../features/hook";
+import { useAppSelector } from "../../store/hook";
 import { useDispatch } from "react-redux";
-import { ToggleAction, toggleForm } from "../../features/user/userSlice";
+import { ToggleAction, toggleForm } from "../../store/user/userSlice";
 import Search from "./Search";
 
 const Header = () => {

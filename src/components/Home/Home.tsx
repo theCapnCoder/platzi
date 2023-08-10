@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
 import Products from "../Products/Products";
-import { useAppDispatch, useAppSelector } from "../../features/hook";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
 import Categories from "../Categories/Categories";
 import { useEffect } from "react";
-import { filterByPrice } from "../../features/products/productsSlice";
-import { getProducts } from "../../features/products/actionCreators/getProducts";
+import { filterByPrice } from "../../store/products/productsSlice";
+import { getProducts } from "../../store/products/actionCreators/getProducts";
 
 const Home = () => {
   const {

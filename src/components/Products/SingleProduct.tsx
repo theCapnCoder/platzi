@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetProductQuery } from "../../features/api/apiSlice";
+import { useGetProductQuery } from "../../store/api/apiSlice";
 import { ROUTES } from "../../utils/routes";
 import { Box, Typography } from "@mui/material";
 import Product from "./Product";
 import { useDispatch } from "react-redux";
-import { getRelatedProducts } from "../../features/products/productsSlice";
-import { useAppSelector } from "../../features/hook";
+import { getRelatedProducts } from "../../store/products/productsSlice";
+import { useAppSelector } from "../../store/hook";
 import Products from "./Products";
 
 const SingleProduct = () => {

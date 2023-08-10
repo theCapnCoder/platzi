@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Box, TextField, Typography, Modal } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../features/hook";
-import { createUser } from "../../features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
+import { createUser } from "../../store/user/userSlice";
 
 type FormData = {
   name: string;

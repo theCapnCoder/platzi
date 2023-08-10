@@ -4,12 +4,12 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Sidebar from "../Sidebar/Sidebar";
 import { useEffect } from "react";
-import { getCategories } from "../../features/categories/categoriesSlice";
-import { useAppDispatch, useAppSelector } from "../../features/hook";
+import { getCategories } from "../../store/categories/categoriesSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
 import UserSignupForm from "../User/UserSignupForm";
-import { toggleForm } from "../../features/user/userSlice";
+import { toggleForm } from "../../store/user/userSlice";
 import UserLoginForm from "../User/UserLoginForm";
-import { getProducts } from "../../features/products/actionCreators/getProducts";
+import { getProducts } from "../../store/products/actionCreators/getProducts";
 
 function App() {
   const dispatch = useAppDispatch();
