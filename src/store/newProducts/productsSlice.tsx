@@ -95,5 +95,8 @@ export const selectAllProducts = (state: RootState) =>
   state.newProducts.products;
 export const selectSelectedProduct = (state: RootState) =>
   state.newProducts.selectedProduct;
+export const selectProductStatus = (state: RootState) =>
+  state.newProducts.status;
+export const selectProductError = (state: RootState) => state.newProducts.error;
 
 export default newProductsSlice.reducer;
