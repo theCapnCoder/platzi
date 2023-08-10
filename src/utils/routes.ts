@@ -3,5 +3,5 @@ export const ROUTES = {
   CART: "platzi/cart",
   PROFILE: "platzi/profile",
   CATEGORY: "platzi/categories/:id",
-  PRODUCT: "platzi/products/:id",
+  PRODUCT: "platzi/products/:productId",
 }

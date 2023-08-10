@@ -51,6 +51,14 @@ const Products: React.FC<Props> = ({ title, products, amount }) => {
                 />
                 <Stack direction={"row"} spacing={1} alignItems={"center"}>
                   <Typography>ID: {id}</Typography>
+                  <Button
+                    variant="contained"
+                    onClick={() => goToPage(id)}
+                    color="secondary"
+                    size="small"
+                  >
+                    Show
+                  </Button>
                   <DeleteProduct productId={id}>
                     <Button variant="contained" size="small">
                       Delete
@@ -60,13 +68,6 @@ const Products: React.FC<Props> = ({ title, products, amount }) => {
                 <Typography>{category.name}</Typography>
                 <Typography>{title}</Typography>
                 <Typography>Price: {price}$</Typography>
-                <Button
-                  variant="contained"
-                  onClick={() => goToPage(id)}
-                  size="small"
-                >
-                  Show
-                </Button>
               </Box>
             </Paper>
           ))}

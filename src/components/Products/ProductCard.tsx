@@ -13,7 +13,7 @@ type Props = {
   };
 };
 
-const Product: React.FC<Props> = ({ item }) => {
+const ProductCard: React.FC<Props> = ({ item }) => {
   const { title, price, images, description } = item;
 
   const [currentImage, setCurrentImage] = React.useState(0);
@@ -79,4 +79,4 @@ const Product: React.FC<Props> = ({ item }) => {
   );
 };
 
-export default Product;
+export default ProductCard;
