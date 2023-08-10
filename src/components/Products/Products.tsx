@@ -1,6 +1,7 @@
-import { Box, Stack, Typography, Paper } from "@mui/material";
+import { Box, Stack, Typography, Paper, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Product } from "../../store/products/types";
+import DeleteProduct from "./DeleteProduct";
 
 type Props = {
   title: string;
@@ -30,11 +31,7 @@ const Products: React.FC<Props> = ({ title, products, amount }) => {
       >
         {list &&
           list.map(({ id, title, price, images, category }) => (
-            <Paper
-              onClick={() => goToPage(id)}
-              key={id}
-              sx={{ p: 2, maxWidth: "100%", cursor: "pointer" }}
-            >
+            <Paper key={id} sx={{ p: 2, maxWidth: "100%", cursor: "pointer" }}>
               <Box
                 sx={{
                   maxWidth: 200,
@@ -52,9 +49,24 @@ const Products: React.FC<Props> = ({ title, products, amount }) => {
                     objectFit: "cover",
                   }}
                 />
+                <Stack direction={"row"} spacing={1} alignItems={"center"}>
+                  <Typography>ID: {id}</Typography>
+                  <DeleteProduct productId={id}>
+                    <Button variant="contained" size="small">
+                      Delete
+                    </Button>
+                  </DeleteProduct>
+                </Stack>
                 <Typography>{category.name}</Typography>
                 <Typography>{title}</Typography>
                 <Typography>Price: {price}$</Typography>
+                <Button
+                  variant="contained"
+                  onClick={() => goToPage(id)}
+                  size="small"
+                >
+                  Show
+                </Button>
               </Box>
             </Paper>
           ))}
