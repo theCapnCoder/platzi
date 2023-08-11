@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../features/hook";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { getProductsByCategory } from "../../features/products/actionCreators/getProductsByCategory";
+import { getProductsByCategory } from "../../store/products/actionCreators/getProductsByCategory";
 import Products from "../Products/Products";
 
 const Category = () => {

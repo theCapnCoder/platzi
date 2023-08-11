@@ -1,43 +1,58 @@
-import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useGetProductQuery } from "../../features/api/apiSlice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
+import { getRelatedProducts } from "../../store/products/productsSlice";
 import { ROUTES } from "../../utils/routes";
 import { Box, Typography } from "@mui/material";
-import Product from "./Product";
-import { useDispatch } from "react-redux";
-import { getRelatedProducts } from "../../features/products/productsSlice";
-import { useAppSelector } from "../../features/hook";
-import Products from "./Products";
+import ProductCard from "./ProductCard";
+import {
+  selectProductError,
+  selectProductStatus,
+  selectSelectedProduct,
+} from "../../store/newProducts/productsSlice";
+import { fetchProductAsync } from "../../store/newProducts/actionCreators/fetchProduct";
+import { useAppDispatch } from "../../store/hook";
 
 const SingleProduct = () => {
-  const { related } = useAppSelector((state) => state.products);
-
-  const { id } = useParams();
-  const dispatch = useDispatch();
+  // const { related } = useAppSelector((state) => state.products);
+  const { productId } = useParams();
+  const dispatch = useAppDispatch();
+  const product = useSelector(selectSelectedProduct);
+  const status = useSelector(selectProductStatus);
+  const error = useSelector(selectProductError);
   const navigate = useNavigate();
 
-  const { data, isLoading, isFetching, isSuccess } = useGetProductQuery(id);
+  useEffect(() => {
+    dispatch(fetchProductAsync(Number(productId)));
+  }, [dispatch, productId]);
 
   useEffect(() => {
-    if (!isFetching && !isLoading && !isSuccess) {
-      navigate(ROUTES.HOME);
+    if (product) {
+      dispatch(getRelatedProducts(product.category.id));
     }
-  }, [isFetching, isLoading, isSuccess, navigate]);
+  }, [dispatch, product]);
 
-  useEffect(() => {
-    if (data) {
-      dispatch(getRelatedProducts(data.category.id));
-    }
-  }, [dispatch, data]);
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  if (status === "failed") {
+    return <p>Error: {error}</p>;
+  }
+
+  if (!product) {
+    navigate(ROUTES.HOME);
+    return null; 
+  }
 
   return (
     <Box p={3}>
       <Typography mb={3} variant="h3">
         SingleProduct
       </Typography>
-      {isLoading && <Typography>Loading...</Typography>}
-      {isSuccess && <Product item={data} />}
-      <Products products={related} amount={5} title="Related Products"/>
+
+      <ProductCard item={product} />
+      {/* <Products products={related} amount={5} title="Related Products" /> */}
     </Box>
   );
 };

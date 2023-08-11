@@ -3,6 +3,7 @@ import { apiSlice } from "./api/apiSlice";
 
 import categoriesSlice from "./categories/categoriesSlice";
 import productsSlice from "./products/productsSlice";
+import newProductsSlice from "./newProducts/productsSlice";
 import userSlice from "./user/userSlice";
 import { playersSlice } from "./api/playersSlice";
 
@@ -10,6 +11,7 @@ export const store = configureStore({
   reducer: {
     categories: categoriesSlice,
     products: productsSlice,
+    newProducts: newProductsSlice,
     user: userSlice,
     [apiSlice.reducerPath]: apiSlice.reducer,
     [playersSlice.reducerPath]: playersSlice.reducer,

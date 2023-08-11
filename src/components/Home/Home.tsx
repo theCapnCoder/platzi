@@ -1,23 +1,25 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import Products from "../Products/Products";
-import { useAppDispatch, useAppSelector } from "../../features/hook";
+import { useAppDispatch, useAppSelector } from "../../store/hook";
 import Categories from "../Categories/Categories";
 import { useEffect } from "react";
-import { filterByPrice } from "../../features/products/productsSlice";
-import UserSignupForm from "../User/UserSignupForm";
-import { toggleForm } from "../../features/user/userSlice";
-import { getProducts } from "../../features/products/actionCreators/getProducts";
+import { filterByPrice } from "../../store/products/productsSlice";
+import { getProducts } from "../../store/products/actionCreators/getProducts";
+import { selectAllProducts } from "../../store/newProducts/productsSlice";
+import { fetchProductsAsync } from "../../store/newProducts/actionCreators/fetchProducts";
 
 const Home = () => {
   const {
-    products,
     products: { list, filtered },
     categories,
   } = useAppSelector((state) => state);
+
+  const products = useAppSelector(selectAllProducts);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(fetchProductsAsync());
   }, [dispatch]);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const Home = () => {
 
   return (
     <Box>
-      <Products products={products.list} amount={10} title="Products" />
+      <Products products={products} amount={10} title="Products" />
       <Categories products={categories.list} amount={5} />
       <Products products={filtered} amount={5} title="Less then 100$" />
     </Box>

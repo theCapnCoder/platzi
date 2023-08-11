@@ -1,11 +1,5 @@
-import {
-  Box,
-  List,
-  ListItemText,
-  ListSubheader,
-  Typography,
-} from "@mui/material";
-import { useAppSelector } from "../../features/hook";
+import { Box } from "@mui/material";
+import { useAppSelector } from "../../store/hook";
 import { ListBar } from "./ListBar";
 
 const Sidebar = () => {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useGetProductsQuery } from "../../features/api/apiSlice";
+import { useGetProductsQuery } from "../../store/api/apiSlice";
 import {
   Box,
   CircularProgress,
