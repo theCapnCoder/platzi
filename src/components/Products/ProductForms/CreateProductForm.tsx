@@ -1,36 +1,60 @@
-import React from 'react';
-import { Formik, Form, Field, FormikProps } from 'formik';
-import { Button, Container, TextField, Grid } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import React from "react";
+import { Formik, Form, Field, FormikProps } from "formik";
+import { Button, Container, TextField, Grid } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { generateRandomInitialValues } from "../../../utils/faker";
 
-interface ProductFormValues {
+export type CreateProductFormValues = {
   title: string;
   price: string;
   description: string;
   categoryId: string;
-  images: string[];
-}
+  images: string;
+};
 
-const initialFormValues: ProductFormValues = {
-  title: '',
-  price: '',
-  description: '',
-  categoryId: '',
-  images: [],
+let initialFormValues: CreateProductFormValues = {
+  title: "oone",
+  price: "",
+  description: "",
+  categoryId: "",
+  images: "",
 };
 
 const CreateProductForm: React.FC = () => {
   const dispatch = useDispatch();
+  const [myValues, setMyValues] = React.useState(initialFormValues);
 
-  const handleSubmit = (values: ProductFormValues) => {
+  const handleSubmit = (values: CreateProductFormValues) => {
     // dispatch(createProduct(values));
+  };
+
+  const createRandomProduct = () => {
+    const randomValues = generateRandomInitialValues();
+    setMyValues(randomValues);
+  };
+
+  const handleRandomValues = (
+    setValues: (values: CreateProductFormValues) => void
+  ) => {
+    const randomValues = generateRandomInitialValues(); // Generate random values
+    setValues(randomValues); // Set the random values to the form fields
   };
 
   return (
     <Container maxWidth="sm">
-      <Formik initialValues={initialFormValues} onSubmit={handleSubmit}>
-        {({ values }: FormikProps<ProductFormValues>) => (
+      <Formik
+        initialValues={myValues}
+        onSubmit={handleSubmit}
+      >
+        {({ values, setValues }: FormikProps<CreateProductFormValues>) => (
           <Form>
+            <Button
+              type="button"
+              variant="contained"
+              onClick={() => handleRandomValues(setValues)}
+            >
+              Generate Random Values
+            </Button>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <Field
@@ -41,6 +65,7 @@ const CreateProductForm: React.FC = () => {
                   variant="outlined"
                   fullWidth
                   margin="normal"
+                  value={values.title}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -52,6 +77,7 @@ const CreateProductForm: React.FC = () => {
                   variant="outlined"
                   fullWidth
                   margin="normal"
+                  value={values.price}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -63,6 +89,7 @@ const CreateProductForm: React.FC = () => {
                   variant="outlined"
                   fullWidth
                   margin="normal"
+                  value={values.description}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -74,6 +101,7 @@ const CreateProductForm: React.FC = () => {
                   variant="outlined"
                   fullWidth
                   margin="normal"
+                  value={values.categoryId}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -85,11 +113,22 @@ const CreateProductForm: React.FC = () => {
                   variant="outlined"
                   fullWidth
                   margin="normal"
+                  value={values.images}
                 />
               </Grid>
               <Grid item xs={12}>
                 <Button type="submit" variant="contained" color="primary">
                   Create Product
+                </Button>
+                <Button
+                  onClick={() => {
+                    createRandomProduct();
+                  }}
+                >
+                  Random
+                </Button>
+                <Button onClick={() => console.log(myValues)}>
+                  Get Values
                 </Button>
               </Grid>
             </Grid>
