@@ -1,6 +1,6 @@
-import { deleteProductAsync } from "../../store/newProducts/actionCreators/deleteProduct";
-import { useAppDispatch } from "../../store/hook";
 import { Box } from "@mui/material";
+import { deleteProductAsync } from "../../../store/newProducts/actionCreators/deleteProduct";
+import { useAppDispatch } from "../../../store/hook";
 
 type Props = {
   productId: number;
