@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "../../store/user/userSlice";
 import { useNavigate } from "react-router-dom";
-import EditProductModal from "./EditProductModal";
+import ProductModal from "./ProductModal";
 
 type Props = {
   item: {
@@ -18,16 +18,16 @@ const ProductCard: React.FC<Props> = ({ item }) => {
   const { title, price, images, description } = item;
 
   const [currentImage, setCurrentImage] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [editOpenModal, setEditOpenModal] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleOpen = () => {
-    setOpen(true);
+    setEditOpenModal(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setEditOpenModal(false);
   };
 
   const addToCart = () => {
@@ -89,7 +89,7 @@ const ProductCard: React.FC<Props> = ({ item }) => {
         </Button>
       </Stack>
 
-      <EditProductModal open={open} onClose={handleClose} />
+      <ProductModal type="update" open={editOpenModal} onClose={handleClose} />
     </Stack>
   );
 };

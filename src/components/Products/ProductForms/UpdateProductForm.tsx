@@ -6,16 +6,6 @@ import { TextField, Button, Grid } from "@mui/material";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 
-interface UpdateProductFormProps {
-  initialValues: {
-    title: string;
-    price: string;
-    description: string;
-    categoryId: string;
-    images: string[];
-  };
-}
-
 const validationSchema = yup.object({
   title: yup.string().required("Title is required"),
   price: yup.string().required("Price is required"),
@@ -23,9 +13,16 @@ const validationSchema = yup.object({
   categoryId: yup.string().required("Category is required"),
 });
 
-const UpdateProductForm: React.FC<UpdateProductFormProps> = ({
-  initialValues,
-}) => {
+const UpdateProductForm= () => {
+
+  const initialValues = {
+    title: "",
+    price: "",
+    description: "",
+    categoryId: "",
+    images: [],
+  };
+
   const dispatch = useDispatch();
 
   const formik = useFormik({

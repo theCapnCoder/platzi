@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hook";
 import UserSignupForm from "../User/UserSignupForm";
 import { toggleForm } from "../../store/user/userSlice";
 import UserLoginForm from "../User/UserLoginForm";
-import { getProducts } from "../../store/products/actionCreators/getProducts";
+import ParentComponent from "./ParentComponent";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,6 +22,7 @@ function App() {
   return (
     <Box sx={{ p: 4 }}>
       <Header />
+      <ParentComponent />
 
       {formType === "signup" && (
         <UserSignupForm
