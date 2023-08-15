@@ -1,57 +1,49 @@
-import React from "react";
+import React, { useImperativeHandle, forwardRef } from "react";
 import { Formik, Form, Field, FormikProps } from "formik";
 import { Button, Container, TextField, Grid } from "@mui/material";
-import { useDispatch } from "react-redux";
 import { generateRandomInitialValues } from "../../../utils/faker";
+import { CreateProduct } from "../../../store/newProducts/actionCreators/createProduct";
 
-export type CreateProductFormValues = {
-  title: string;
-  price: string;
-  description: string;
-  categoryId: string;
-  images: string;
-};
-
-let initialFormValues: CreateProductFormValues = {
-  title: "oone",
-  price: "",
+let initialFormValues: CreateProduct = {
+  title: "",
+  price: 0,
   description: "",
-  categoryId: "",
-  images: "",
+  categoryId: 0,
+  images: [],
 };
 
-const CreateProductForm: React.FC = () => {
-  const dispatch = useDispatch();
-  const [myValues, setMyValues] = React.useState(initialFormValues);
+export type CreateProductFormMethod = {
+  getFormData: () => CreateProduct;
+};
 
-  const handleSubmit = (values: CreateProductFormValues) => {
-    // dispatch(createProduct(values));
+const CreateProductForm = forwardRef<CreateProductFormMethod>((props, ref) => {
+  const [formValue, setFormValue] = React.useState(initialFormValues);
+
+  const heandleSubmit = () => {};
+
+  const getFormData = () => {
+    return formValue;
   };
 
-  const createRandomProduct = () => {
+  useImperativeHandle(ref, () => ({
+    getFormData,
+  }));
+
+  const createRandomProduct = (setValues: (values: CreateProduct) => void) => {
     const randomValues = generateRandomInitialValues();
-    setMyValues(randomValues);
-  };
-
-  const handleRandomValues = (
-    setValues: (values: CreateProductFormValues) => void
-  ) => {
-    const randomValues = generateRandomInitialValues(); // Generate random values
-    setValues(randomValues); // Set the random values to the form fields
+    setValues(randomValues);
+    setFormValue(randomValues);
   };
 
   return (
     <Container maxWidth="sm">
-      <Formik
-        initialValues={myValues}
-        onSubmit={handleSubmit}
-      >
-        {({ values, setValues }: FormikProps<CreateProductFormValues>) => (
+      <Formik initialValues={formValue} onSubmit={heandleSubmit}>
+        {({ values, setValues }: FormikProps<CreateProduct>) => (
           <Form>
             <Button
               type="button"
               variant="contained"
-              onClick={() => handleRandomValues(setValues)}
+              onClick={() => createRandomProduct(setValues)}
             >
               Generate Random Values
             </Button>
@@ -113,10 +105,10 @@ const CreateProductForm: React.FC = () => {
                   variant="outlined"
                   fullWidth
                   margin="normal"
-                  value={values.images}
+                  value={values.images[0]}
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Button type="submit" variant="contained" color="primary">
                   Create Product
                 </Button>
@@ -130,13 +122,13 @@ const CreateProductForm: React.FC = () => {
                 <Button onClick={() => console.log(myValues)}>
                   Get Values
                 </Button>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Form>
         )}
       </Formik>
     </Container>
   );
-};
+});
 
 export default CreateProductForm;
