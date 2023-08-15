@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { getRelatedProducts } from "../../store/products/productsSlice";
 import { ROUTES } from "../../utils/routes";
@@ -54,6 +54,7 @@ const SingleProduct = () => {
       <ProductCard item={product} />
       {/* <Products products={related} amount={5} title="Related Products" /> */}
     </Box>
+    
   );
 };
 
