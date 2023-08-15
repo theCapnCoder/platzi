@@ -9,7 +9,7 @@ let initialFormValues: CreateProduct = {
   price: 0,
   description: "",
   categoryId: 0,
-  images: [],
+  images: [...Array(3)].map(() => ""),
 };
 
 export type CreateProductFormMethod = {
@@ -96,18 +96,20 @@ const CreateProductForm = forwardRef<CreateProductFormMethod>((props, ref) => {
                   value={values.categoryId}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <Field
-                  as={TextField}
-                  label="Image URL"
-                  type="text"
-                  name="images[0]"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  value={values.images[0]}
-                />
-              </Grid>
+              {values.images.map((image, idx) => (
+                <Grid item xs={12} key={idx} onClick={() => console.log(image)}>
+                  <Field
+                    as={TextField}
+                    label="Image URL"
+                    type="text"
+                    name={`imgage ${idx}`}
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    value={image}
+                  />
+                </Grid>
+              ))}
               {/* <Grid item xs={12}>
                 <Button type="submit" variant="contained" color="primary">
                   Create Product
