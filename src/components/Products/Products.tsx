@@ -1,7 +1,9 @@
 import { Box, Stack, Typography, Paper, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Product } from "../../store/products/types";
-import DeleteProduct from "./DeleteProduct";
+import DeleteProduct from "./ProductForms/DeleteProduct";
+import ProductModal from "./ProductModal";
+import { useState } from "react";
 
 type Props = {
   title: string;
@@ -10,6 +12,8 @@ type Props = {
 };
 
 const Products: React.FC<Props> = ({ title, products, amount }) => {
+  const [createOpenModal, setCreateOpenModal] = useState(false);
+
   const list = products.slice(0, amount);
   const navigate = useNavigate();
 
@@ -17,11 +21,29 @@ const Products: React.FC<Props> = ({ title, products, amount }) => {
     navigate(`/platzi/products/${id}`);
   };
 
+  const handleOpen = () => {
+    setCreateOpenModal(true);
+  };
+
+  const handleClose = () => {
+    setCreateOpenModal(false);
+  };
+
   return (
     <Box p={2}>
       <Typography variant="h3" mb={3} sx={{ textAlign: "center" }}>
         {title}
       </Typography>
+
+      <Button onClick={handleOpen} variant="contained">
+        Create
+      </Button>
+      <ProductModal
+        type="create"
+        open={createOpenModal}
+        onClose={handleClose}
+      />
+
       <Stack
         direction={"row"}
         flexWrap={"wrap"}
