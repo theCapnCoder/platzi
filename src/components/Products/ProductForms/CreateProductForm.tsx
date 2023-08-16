@@ -3,6 +3,7 @@ import { Formik, Form, Field, FormikProps } from "formik";
 import { Button, Container, TextField, Grid } from "@mui/material";
 import { generateRandomInitialValues } from "../../../utils/faker";
 import { CreateProduct } from "../../../store/newProducts/actionCreators/createProduct";
+import { object, string, number, array } from "yup";
 
 let initialFormValues: CreateProduct = {
   title: "",
@@ -11,6 +12,16 @@ let initialFormValues: CreateProduct = {
   categoryId: 0,
   images: [...Array(3)].map(() => ""),
 };
+
+const validationSchema = object({
+  title: string().required("Title is required"),
+  price: number()
+    .required("Price is required")
+    .min(0, "Price must be greater than or equal to 0"),
+  description: string().required("Description is required"),
+  categoryId: number().required("Category ID is required"),
+  images: array().of(string().url("Invalid URL format")),
+});
 
 export type CreateProductFormMethod = {
   getFormData: () => CreateProduct;
@@ -37,15 +48,31 @@ const CreateProductForm = forwardRef<CreateProductFormMethod>((props, ref) => {
 
   return (
     <Container maxWidth="sm">
-      <Formik initialValues={formValue} onSubmit={heandleSubmit}>
-        {({ values, setValues }: FormikProps<CreateProduct>) => (
+      <Formik
+        initialValues={formValue}
+        validationSchema={validationSchema}
+        onSubmit={heandleSubmit}
+      >
+        {({ values, setValues, resetForm }: FormikProps<CreateProduct>) => (
           <Form>
+            <Button onClick={() => console.log(values)}>Get</Button>
             <Button
               type="button"
               variant="contained"
               onClick={() => createRandomProduct(setValues)}
             >
               Generate Random Values
+            </Button>
+            <Button
+              type="button"
+              variant="contained"
+              color="warning"
+              onClick={() => {
+                resetForm();
+                setValues(initialFormValues);
+              }}
+            >
+              Reset
             </Button>
             <Grid container spacing={2}>
               <Grid item xs={12}>
