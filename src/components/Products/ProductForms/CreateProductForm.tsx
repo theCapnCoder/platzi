@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, forwardRef } from "react";
+import React from "react";
 import { Formik, Form, Field, FormikProps } from "formik";
 import {
   Button,
@@ -17,8 +17,6 @@ import { object, string, number, array } from "yup";
 import { useAppSelector } from "../../../store/hook";
 import { selectAllCategories } from "../../../store/categories/categoriesSlice";
 
-// let initialFormValues: Omit<CreateProduct, "price"> & {
-//   price: number | string;
 let initialFormValues: CreateProduct = {
   title: "",
   price: 0,
@@ -57,9 +55,14 @@ const CreateProductForm = ({ open, onClose }: Props) => {
     setFormValue(randomValues);
   };
 
+  const handleCLose = () => {
+    setFormValue(initialFormValues);
+    onClose();
+  };
+
   return (
     <div>
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+      <Dialog open={open} onClose={handleCLose} fullWidth maxWidth="sm">
         <DialogTitle sx={{ textTransform: "capitalize" }}>
           Create Product
         </DialogTitle>
@@ -142,8 +145,15 @@ const CreateProductForm = ({ open, onClose }: Props) => {
                     </Grid>
                     <Grid item xs={12}>
                       <Autocomplete
-                        options={categoryOptions} 
-                        getOptionLabel={(option) => option.name} 
+                        options={categoryOptions}
+                        getOptionLabel={(option) => option.name}
+                        value={
+                          values.categoryId === 0
+                            ? null
+                            : categoryOptions.find(
+                                (option) => option.id === values.categoryId
+                              ) || null
+                        }
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -179,7 +189,7 @@ const CreateProductForm = ({ open, onClose }: Props) => {
                     ))}
                   </Grid>
                   <DialogActions>
-                    <Button onClick={onClose} color="primary">
+                    <Button onClick={handleCLose} color="primary">
                       Cancel
                     </Button>
                     <Button type="submit" color="primary">
