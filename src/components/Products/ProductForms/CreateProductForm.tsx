@@ -1,21 +1,24 @@
 import React from "react";
 import { Formik, Form, Field, FormikProps } from "formik";
+import { object, string, number, array } from "yup";
 import {
+  Autocomplete,
   Button,
   Container,
-  TextField,
-  Grid,
   Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
-  Autocomplete,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Stack,
+  TextField,
 } from "@mui/material";
+
+import { CreateProduct, createProductAsync } from "../../../store/newProducts/actionCreators/createProduct";
 import { generateRandomInitialValues } from "../../../utils/faker";
-import { CreateProduct } from "../../../store/newProducts/actionCreators/createProduct";
-import { object, string, number, array } from "yup";
-import { useAppSelector } from "../../../store/hook";
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import { selectAllCategories } from "../../../store/categories/categoriesSlice";
+
 
 let initialFormValues: CreateProduct = {
   title: "",
@@ -42,15 +45,16 @@ type Props = {
 
 const CreateProductForm = ({ open, onClose }: Props) => {
   const [formValue, setFormValue] = React.useState(initialFormValues);
+  const dispatch = useAppDispatch();
 
   const categoryOptions = useAppSelector(selectAllCategories);
 
-  const heandleSubmit = (e: any) => {
-    console.log(e);
+  const heandleSubmit = (values: any) => {
+    dispatch(createProductAsync(values));
   };
 
   const createRandomProduct = (setValues: (values: CreateProduct) => void) => {
-    const randomValues = generateRandomInitialValues();
+    const randomValues = generateRandomInitialValues(categoryOptions.length);
     setValues(randomValues);
     setFormValue(randomValues);
   };
@@ -81,25 +85,27 @@ const CreateProductForm = ({ open, onClose }: Props) => {
                 touched,
               }: FormikProps<CreateProduct>) => (
                 <Form>
-                  <Button onClick={() => console.log(values)}>Get</Button>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={() => createRandomProduct(setValues)}
-                  >
-                    Generate Random Values
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    color="warning"
-                    onClick={() => {
-                      resetForm();
-                      setValues(initialFormValues);
-                    }}
-                  >
-                    Reset
-                  </Button>
+                  <Stack direction={"row"} spacing={2}>
+                    <Button
+                      type="button"
+                      variant="contained"
+                      onClick={() => createRandomProduct(setValues)}
+                    >
+                      Generate Random Values
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="contained"
+                      color="warning"
+                      onClick={() => {
+                        resetForm();
+                        setValues(initialFormValues);
+                      }}
+                    >
+                      Reset
+                    </Button>
+                  </Stack>
+
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <Field
