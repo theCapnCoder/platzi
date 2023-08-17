@@ -1,141 +1,214 @@
 import React from "react";
 import { Formik, Form, Field, FormikProps } from "formik";
-import { Button, Container, TextField, Grid } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { object, string, number, array } from "yup";
+import {
+  Autocomplete,
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Stack,
+  TextField,
+} from "@mui/material";
+
+import { CreateProduct, createProductAsync } from "../../../store/newProducts/actionCreators/createProduct";
 import { generateRandomInitialValues } from "../../../utils/faker";
+import { useAppDispatch, useAppSelector } from "../../../store/hook";
+import { selectAllCategories } from "../../../store/categories/categoriesSlice";
 
-export type CreateProductFormValues = {
-  title: string;
-  price: string;
-  description: string;
-  categoryId: string;
-  images: string;
-};
 
-let initialFormValues: CreateProductFormValues = {
-  title: "oone",
-  price: "",
+let initialFormValues: CreateProduct = {
+  title: "",
+  price: 0,
   description: "",
-  categoryId: "",
-  images: "",
+  categoryId: 0,
+  images: [...Array(3)].map(() => ""),
 };
 
-const CreateProductForm: React.FC = () => {
-  const dispatch = useDispatch();
-  const [myValues, setMyValues] = React.useState(initialFormValues);
+const validationSchema = object({
+  title: string().required("Title is required"),
+  price: number()
+    .required("Price is required")
+    .min(0, "Price must be greater than or equal to 0"),
+  description: string().required("Description is required"),
+  categoryId: number().required("Category ID is required"),
+  images: array().of(string().url("Invalid URL format")),
+});
 
-  const handleSubmit = (values: CreateProductFormValues) => {
-    // dispatch(createProduct(values));
+type Props = {
+  open: boolean;
+  onClose: () => void;
+};
+
+const CreateProductForm = ({ open, onClose }: Props) => {
+  const [formValue, setFormValue] = React.useState(initialFormValues);
+  const dispatch = useAppDispatch();
+
+  const categoryOptions = useAppSelector(selectAllCategories);
+
+  const heandleSubmit = (values: any) => {
+    dispatch(createProductAsync(values));
   };
 
-  const createRandomProduct = () => {
-    const randomValues = generateRandomInitialValues();
-    setMyValues(randomValues);
+  const createRandomProduct = (setValues: (values: CreateProduct) => void) => {
+    const randomValues = generateRandomInitialValues(categoryOptions.length);
+    setValues(randomValues);
+    setFormValue(randomValues);
   };
 
-  const handleRandomValues = (
-    setValues: (values: CreateProductFormValues) => void
-  ) => {
-    const randomValues = generateRandomInitialValues(); // Generate random values
-    setValues(randomValues); // Set the random values to the form fields
+  const handleCLose = () => {
+    setFormValue(initialFormValues);
+    onClose();
   };
 
   return (
-    <Container maxWidth="sm">
-      <Formik
-        initialValues={myValues}
-        onSubmit={handleSubmit}
-      >
-        {({ values, setValues }: FormikProps<CreateProductFormValues>) => (
-          <Form>
-            <Button
-              type="button"
-              variant="contained"
-              onClick={() => handleRandomValues(setValues)}
+    <div>
+      <Dialog open={open} onClose={handleCLose} fullWidth maxWidth="sm">
+        <DialogTitle sx={{ textTransform: "capitalize" }}>
+          Create Product
+        </DialogTitle>
+        <DialogContent>
+          <Container maxWidth="sm">
+            <Formik
+              initialValues={formValue}
+              validationSchema={validationSchema}
+              onSubmit={heandleSubmit}
             >
-              Generate Random Values
-            </Button>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Field
-                  as={TextField}
-                  label="Title"
-                  type="text"
-                  name="title"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  value={values.title}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Field
-                  as={TextField}
-                  label="Price"
-                  type="text"
-                  name="price"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  value={values.price}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Field
-                  as={TextField}
-                  label="Description"
-                  type="text"
-                  name="description"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  value={values.description}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Field
-                  as={TextField}
-                  label="Category ID"
-                  type="text"
-                  name="categoryId"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  value={values.categoryId}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Field
-                  as={TextField}
-                  label="Image URL"
-                  type="text"
-                  name="images[0]"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  value={values.images}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button type="submit" variant="contained" color="primary">
-                  Create Product
-                </Button>
-                <Button
-                  onClick={() => {
-                    createRandomProduct();
-                  }}
-                >
-                  Random
-                </Button>
-                <Button onClick={() => console.log(myValues)}>
-                  Get Values
-                </Button>
-              </Grid>
-            </Grid>
-          </Form>
-        )}
-      </Formik>
-    </Container>
+              {({
+                values,
+                setValues,
+                resetForm,
+                errors,
+                touched,
+              }: FormikProps<CreateProduct>) => (
+                <Form>
+                  <Stack direction={"row"} spacing={2}>
+                    <Button
+                      type="button"
+                      variant="contained"
+                      onClick={() => createRandomProduct(setValues)}
+                    >
+                      Generate Random Values
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="contained"
+                      color="warning"
+                      onClick={() => {
+                        resetForm();
+                        setValues(initialFormValues);
+                      }}
+                    >
+                      Reset
+                    </Button>
+                  </Stack>
+
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Field
+                        as={TextField}
+                        label="Title"
+                        type="text"
+                        name="title"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        value={values.title}
+                        error={touched.title && !!errors.title}
+                        helperText={touched.title && errors.title}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        as={TextField}
+                        label="Price"
+                        type="text"
+                        name="price"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        value={values.price === 0 ? "" : values.price}
+                        error={touched.title && !!errors.title}
+                        helperText={touched.title && errors.title}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Field
+                        as={TextField}
+                        label="Description"
+                        type="text"
+                        name="description"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        value={values.description}
+                        error={touched.description && !!errors.description}
+                        helperText={touched.description && errors.description}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Autocomplete
+                        options={categoryOptions}
+                        getOptionLabel={(option) => option.name}
+                        value={
+                          values.categoryId === 0
+                            ? null
+                            : categoryOptions.find(
+                                (option) => option.id === values.categoryId
+                              ) || null
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Category ID"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            error={touched.categoryId && !!errors.categoryId}
+                            helperText={touched.categoryId && errors.categoryId}
+                          />
+                        )}
+                      />
+                    </Grid>
+
+                    {values.images.map((image, idx) => (
+                      <Grid
+                        item
+                        xs={12}
+                        key={idx}
+                        onClick={() => console.log(image)}
+                      >
+                        <Field
+                          as={TextField}
+                          label="Image URL"
+                          type="text"
+                          name={`imgage ${idx}`}
+                          variant="outlined"
+                          fullWidth
+                          margin="normal"
+                          value={image}
+                        />
+                      </Grid>
+                    ))}
+                  </Grid>
+                  <DialogActions>
+                    <Button onClick={handleCLose} color="primary">
+                      Cancel
+                    </Button>
+                    <Button type="submit" color="primary">
+                      Create
+                    </Button>
+                  </DialogActions>
+                </Form>
+              )}
+            </Formik>
+          </Container>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 

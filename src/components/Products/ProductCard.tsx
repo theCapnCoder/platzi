@@ -52,6 +52,7 @@ const ProductCard: React.FC<Props> = ({ item }) => {
             sx={{
               maxWidth: 200,
               maxHeight: 200,
+              cursor: "pointer",
             }}
           >
             <Box
