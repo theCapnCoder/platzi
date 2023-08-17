@@ -14,11 +14,13 @@ import {
   TextField,
 } from "@mui/material";
 
-import { CreateProduct, createProductAsync } from "../../../store/newProducts/actionCreators/createProduct";
+import {
+  CreateProduct,
+  createProductAsync,
+} from "../../../store/newProducts/actionCreators/createProduct";
 import { generateRandomInitialValues } from "../../../utils/faker";
 import { useAppDispatch, useAppSelector } from "../../../store/hook";
 import { selectAllCategories } from "../../../store/categories/categoriesSlice";
-
 
 let initialFormValues: CreateProduct = {
   title: "",
@@ -51,10 +53,14 @@ const CreateProductForm = ({ open, onClose }: Props) => {
 
   const heandleSubmit = (values: any) => {
     dispatch(createProductAsync(values));
+    setFormValue(initialFormValues);
+    onClose();
   };
 
   const createRandomProduct = (setValues: (values: CreateProduct) => void) => {
-    const randomValues = generateRandomInitialValues(categoryOptions.length);
+    const randomValues = generateRandomInitialValues(
+      categoryOptions.map((c) => c.id)
+    );
     setValues(randomValues);
     setFormValue(randomValues);
   };
@@ -153,6 +159,12 @@ const CreateProductForm = ({ open, onClose }: Props) => {
                       <Autocomplete
                         options={categoryOptions}
                         getOptionLabel={(option) => option.name}
+                        onChange={(_, value) => {
+                          setValues({
+                            ...values,
+                            categoryId: value?.id || 0,
+                          });
+                        }}
                         value={
                           values.categoryId === 0
                             ? null
