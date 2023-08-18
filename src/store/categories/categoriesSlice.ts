@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../utils/constants";
 import axios from "axios";
+import { RootState } from "../type";
 
 export const getCategories = createAsyncThunk(
   "categories/getCategories",
@@ -51,5 +52,7 @@ const categoriesSlice = createSlice({
     })
   }
 })
+
+export const selectAllCategories = (state: RootState) => state.categories.list;
 
 export default categoriesSlice.reducer;
