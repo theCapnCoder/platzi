@@ -1,6 +1,5 @@
 import React from "react";
 import { Formik, Form, Field, FormikProps } from "formik";
-import { object, string, number, array } from "yup";
 import {
   Autocomplete,
   Button,
@@ -17,33 +16,12 @@ import {
 import {
   CreateProduct,
   createProductAsync,
-} from "../../../store/newProducts/actionCreators/createProduct";
-import { generateRandomInitialValues } from "../../../utils/faker";
-import { useAppDispatch, useAppSelector } from "../../../store/hook";
-import { selectAllCategories } from "../../../store/categories/categoriesSlice";
-
-let initialFormValues: CreateProduct = {
-  title: "",
-  price: 0,
-  description: "",
-  categoryId: 0,
-  images: [...Array(3)].map(() => ""),
-};
-
-const validationSchema = object({
-  title: string().required("Title is required"),
-  price: number()
-    .required("Price is required")
-    .min(0, "Price must be greater than or equal to 0"),
-  description: string().required("Description is required"),
-  categoryId: number().required("Category ID is required"),
-  images: array().of(string().url("Invalid URL format")),
-});
-
-type Props = {
-  open: boolean;
-  onClose: () => void;
-};
+} from "../../../../store/newProducts/actionCreators/createProduct";
+import { generateRandomInitialValues } from "../../../../utils/faker";
+import { useAppDispatch, useAppSelector } from "../../../../store/hook";
+import { selectAllCategories } from "../../../../store/categories/categoriesSlice";
+import { initialFormValues, validationSchema } from "./constants";
+import { Props } from "./type";
 
 const CreateProductForm = ({ open, onClose }: Props) => {
   const [formValue, setFormValue] = React.useState(initialFormValues);
