@@ -6,8 +6,8 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import UpdateProductForm from "./ProductForms/UpdateProductForm";
-import CreateProductForm from "./ProductForms/CreateProductForm";
+import UpdateProductForm from "./ProductForms/UpdateProductForm/UpdateProductForm";
+import CreateProductForm from "./ProductForms/CreateProductForm/CreateProductForm";
 import {
   CreateProduct,
   createProductAsync,
@@ -31,7 +31,7 @@ const ProductModal: React.FC<Props> = ({ type, open, onClose }) => {
   const handleProductAction = () => {
     if (formRef.current) {
       const formData = formRef.current.getFormData();
-      content[type].action(formData);
+      // content[type].action(formData);
       console.log("Form Data from Child:", formData);
     }
   };
@@ -42,7 +42,7 @@ const ProductModal: React.FC<Props> = ({ type, open, onClose }) => {
       action: (data: any) => dispatch(createProductAsync(data)),
     },
     create: {
-      component: <CreateProductForm ref={formRef} />,
+      component: <CreateProductForm open={true} onClose={() => {}} />,
       action: (dataForm: CreateProduct) =>
         dispatch(createProductAsync(dataForm)),
     },
