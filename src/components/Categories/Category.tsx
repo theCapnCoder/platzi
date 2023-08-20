@@ -2,13 +2,13 @@ import { Box, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { getProductsByCategory } from "../../store/products/actionCreators/getProductsByCategory";
 import Products from "../Products/Products";
+import { fetchProductsAsync } from "../../store/products/actionCreators/fetchProductsByCategory";
 
 const Category = () => {
   const categories = useAppSelector((state) => state.categories);
   const isLoadingCategories = categories.isLoading;
-  const { isLoading: isLoadingProducts, list } = useAppSelector(
+  const { status, products } = useAppSelector(
     (state) => state.products
   );
 
@@ -21,17 +21,17 @@ const Category = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(getProductsByCategory({ id: Number(id) }));
+      dispatch(fetchProductsAsync(Number(id)));
     }
   }, [id, dispatch]);
 
   return (
     <Box>
-      {isLoadingProducts ? (
+      {status === 'loading' ? (
         <Typography>Loading...</Typography>
       ) : (
         <Box>
-          <Products products={list} amount={10} title={nameCategory} />
+          <Products products={products} amount={10} title={nameCategory} />
         </Box>
       )}
     </Box>
