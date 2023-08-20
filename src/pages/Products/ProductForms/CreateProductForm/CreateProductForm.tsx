@@ -13,15 +13,12 @@ import {
   TextField,
 } from "@mui/material";
 
-import {
-  CreateProduct,
-  createProductAsync,
-} from "../../../../store/newProducts/actionCreators/createProduct";
 import { generateRandomInitialValues } from "../../../../utils/faker";
 import { useAppDispatch, useAppSelector } from "../../../../store/hook";
 import { selectAllCategories } from "../../../../store/categories/categoriesSlice";
 import { initialFormValues, validationSchema } from "./constants";
 import { Props } from "./type";
+import { CreateProduct, createProductAsync } from "../../../../store/products/actionCreators/createProduct";
 
 const CreateProductForm = ({ open, onClose }: Props) => {
   const [formValue, setFormValue] = React.useState(initialFormValues);

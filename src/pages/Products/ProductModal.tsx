@@ -8,11 +8,8 @@ import {
 } from "@mui/material";
 import UpdateProductForm from "./ProductForms/UpdateProductForm/UpdateProductForm";
 import CreateProductForm from "./ProductForms/CreateProductForm/CreateProductForm";
-import {
-  CreateProduct,
-  createProductAsync,
-} from "../../store/newProducts/actionCreators/createProduct";
 import { useAppDispatch } from "../../store/hook";
+import { CreateProduct, createProductAsync } from "../../store/products/actionCreators/createProduct";
 
 type Props = {
   open: boolean;

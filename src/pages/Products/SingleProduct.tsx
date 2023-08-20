@@ -5,13 +5,9 @@ import { getRelatedProducts } from "../../store/products/productsSlice";
 import { ROUTES } from "../../utils/routes";
 import { Box, Typography } from "@mui/material";
 import ProductCard from "./ProductCard";
-import {
-  selectProductError,
-  selectProductStatus,
-  selectSelectedProduct,
-} from "../../store/newProducts/productsSlice";
-import { fetchProductAsync } from "../../store/newProducts/actionCreators/fetchProduct";
 import { useAppDispatch } from "../../store/hook";
+import { selectProductError, selectProductStatus, selectSelectedProduct } from "../../store/products/selectors";
+import { fetchProductAsync } from "../../store/products/actionCreators/fetchProduct";
 
 const SingleProduct = () => {
   // const { related } = useAppSelector((state) => state.products);

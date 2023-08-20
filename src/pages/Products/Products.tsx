@@ -1,10 +1,10 @@
 import { Box, Stack, Typography, Paper, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Product } from "../../store/products/types";
 import DeleteProduct from "./ProductForms/DeleteProduct/DeleteProduct";
 import ProductModal from "./ProductModal";
 import { useState } from "react";
 import CreateProductForm from "./ProductForms/CreateProductForm/CreateProductForm";
+import { Product } from "../../store/products/type";
 
 type Props = {
   title: string;
@@ -40,11 +40,6 @@ const Products: React.FC<Props> = ({ title, products, amount }) => {
         Create
       </Button>
       <CreateProductForm open={createOpenModal} onClose={handleClose} />
-      {/* <ProductModal
-        type="create"
-        open={createOpenModal}
-        onClose={handleClose}
-      /> */}
 
       <Stack
         direction={"row"}

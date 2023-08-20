@@ -1,9 +1,6 @@
-// UpdateProductForm.tsx
-
 import React from "react";
 import { useFormik } from "formik";
 import { TextField, Button, Grid } from "@mui/material";
-import { useDispatch } from "react-redux";
 import * as yup from "yup";
 
 const validationSchema = yup.object({
@@ -22,8 +19,6 @@ const UpdateProductForm= () => {
     categoryId: "",
     images: [],
   };
-
-  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues,

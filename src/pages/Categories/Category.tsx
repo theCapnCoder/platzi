@@ -2,8 +2,8 @@ import { Box, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import Products from "../Products/Products";
 import { fetchProductsAsync } from "../../store/products/actionCreators/fetchProductsByCategory";
+import Products from "../Products/Products";
 
 const Category = () => {
   const categories = useAppSelector((state) => state.categories);

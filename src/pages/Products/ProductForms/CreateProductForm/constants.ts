@@ -1,5 +1,5 @@
 import { object, string, number, array } from "yup";
-import { CreateProduct } from "../../../../store/newProducts/actionCreators/createProduct";
+import { CreateProduct } from "../../../../store/products/actionCreators/createProduct";
 
 export const initialFormValues: CreateProduct = {
   title: "",

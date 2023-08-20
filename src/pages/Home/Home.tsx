@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import Products from "../Products/Products";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
 import Categories from "../Categories/Categories";
 import { useEffect } from "react";
@@ -10,6 +9,7 @@ import {
 import { selectAllCategories } from "../../store/categories/categoriesSlice";
 import { fetchProductsAsync } from "../../store/products/actionCreators/fetchProducts";
 import { filterByPrice } from "../../store/products/productsSlice";
+import Products from "../Products/Products";
 
 const Home = () => {
   const products = useAppSelector(selectAllProducts);
