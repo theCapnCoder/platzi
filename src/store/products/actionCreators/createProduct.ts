@@ -1,9 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import productsApi from "../../../api/products";
 
+export type CreateProduct = {
+  title: string;
+  price: number;
+  description: string;
+  categoryId: number;
+  images: string[];
+}
+
 export const createProductAsync = createAsyncThunk(
   "products/createProduct",
-  async (productData: any) => {
+  async (productData: CreateProduct) => {
     try {
       const response = await productsApi.createProduct(productData);
       return response;
