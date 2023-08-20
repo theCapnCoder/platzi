@@ -1,23 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../type";
 import { fetchProductsAsync } from "./actionCreators/fetchProducts";
 import { fetchProductAsync } from "./actionCreators/fetchProduct";
 import { updateProductAsync } from "./actionCreators/updateProduct";
 import { deleteProductAsync } from "./actionCreators/deleteProduct";
 import { createProductAsync } from "./actionCreators/createProduct";
 import { ProductsState } from "./type";
+import { shuffle } from "../../utils/common";
 
 const initialState: ProductsState = {
   products: [],
   selectedProduct: null,
   status: "idle",
+  related: [],
+  filtered: [],
   error: null,
 };
 
 const newProductsSlice = createSlice({
   name: "products",
   initialState,
-  reducers: {},
+  reducers: {
+    filterByPrice: (state, { payload }) => {
+      state.filtered = state.products.filter(({ price }) => {
+        return price < payload;
+      });
+    },
+    getRelatedProducts: (state, { payload }) => {
+      const list = state.products.filter(({ category: { id } }) => id === payload);
+      state.related = shuffle(list);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductsAsync.pending, (state) => {
@@ -79,10 +91,15 @@ const newProductsSlice = createSlice({
       })
       .addCase(deleteProductAsync.fulfilled, (state, action) => {
         state.status = "succeeded";
+        console.log("enter");
         const deletedProductId = action.payload;
-        state.products = state.products.filter(
-          (product) => product.id !== deletedProductId
-        );
+        console.log(deletedProductId, state, state.products);
+        console.log(state.status, JSON.stringify(state))
+        state.products.map(product => console.log(product));
+        state.products = state.products.filter((product) => {
+          console.log(product.id, deletedProductId);
+          return product.id !== deletedProductId;
+        });
       })
       .addCase(deleteProductAsync.rejected, (state, action) => {
         state.status = "failed";
@@ -91,12 +108,6 @@ const newProductsSlice = createSlice({
   },
 });
 
-export const selectAllProducts = (state: RootState) =>
-  state.newProducts.products;
-export const selectSelectedProduct = (state: RootState) =>
-  state.newProducts.selectedProduct;
-export const selectProductStatus = (state: RootState) =>
-  state.newProducts.status;
-export const selectProductError = (state: RootState) => state.newProducts.error;
+export const { filterByPrice, getRelatedProducts } = newProductsSlice.actions;
 
 export default newProductsSlice.reducer;
