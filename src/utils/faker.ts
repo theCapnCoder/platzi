@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { CreateProduct } from "../store/newProducts/actionCreators/createProduct";
+import { CreateProduct } from "../store/products/actionCreators/createProduct";
 
 export const generateRandomInitialValues = (categoryIds: number[]): CreateProduct => {
   const getImage = () => faker.image.url()
