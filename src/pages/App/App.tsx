@@ -1,15 +1,15 @@
 import { Box, Stack } from "@mui/material";
-import AppRoutes from "../Routes/Routes";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import Sidebar from "../Sidebar/Sidebar";
+import AppRoutes from "../../routes/Routes";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import { useEffect } from "react";
 import { getCategories } from "../../store/categories/categoriesSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hook";
-import UserSignupForm from "../User/UserSignupForm";
+import UserSignupForm from "../../components/User/UserSignupForm";
 import { toggleForm } from "../../store/user/userSlice";
-import UserLoginForm from "../User/UserLoginForm";
-import ParentComponent from "./ParentComponent";
+import UserLoginForm from "../../components/User/UserLoginForm";
+import Notification from "../../components/Notification/Notification";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,7 +22,6 @@ function App() {
   return (
     <Box sx={{ p: 4 }}>
       <Header />
-      <ParentComponent />
 
       {formType === "signup" && (
         <UserSignupForm
@@ -46,6 +45,8 @@ function App() {
       </Stack>
 
       <Footer />
+
+      <Notification />
     </Box>
   );
 }
