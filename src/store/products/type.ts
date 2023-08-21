@@ -1,4 +1,4 @@
-type Category = {
+export type Category = {
   id: number;
   name: string;
   image: string;
@@ -6,7 +6,7 @@ type Category = {
   updatedAt: string;
 }
 
-type Product = {
+export type Product = {
   id: number;
   title: string;
   price: number;
@@ -20,6 +20,8 @@ type Product = {
 export type ProductsState = {
   products: Product[];
   selectedProduct: Product | null;
+  related: Product[];
+  filtered: Product[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }

@@ -91,11 +91,7 @@ const newProductsSlice = createSlice({
       })
       .addCase(deleteProductAsync.fulfilled, (state, action) => {
         state.status = "succeeded";
-        console.log("enter");
         const deletedProductId = action.payload;
-        console.log(deletedProductId, state, state.products);
-        console.log(state.status, JSON.stringify(state))
-        state.products.map(product => console.log(product));
         state.products = state.products.filter((product) => {
           console.log(product.id, deletedProductId);
           return product.id !== deletedProductId;
