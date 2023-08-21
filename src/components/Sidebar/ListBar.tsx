@@ -1,10 +1,16 @@
 import { Box, List, ListItemText, ListSubheader } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
+export type ListItem = {
+  id: number;
+  name: string;
+  url: string;
+}
+
 type Props = {
   title: string;
   subtitle: string;
-  list: Array<{ id: number; name: string }>;
+  list: ListItem[];
 };
 
 export const ListBar: React.FC<Props> = ({ title, subtitle, list }) => {
@@ -18,23 +24,11 @@ export const ListBar: React.FC<Props> = ({ title, subtitle, list }) => {
       }}
       component="nav"
       aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader
-          component="div"
-          id="nested-list-subheader"
-          sx={{ mb: 2, fontSize: 18, lineHeight: "22px", fontWeight: "bold" }}
-        >
-          {title}{" "}
-          <Box component={"span"} sx={{ fontSize: 12 }}>
-            ({subtitle})
-          </Box>
-        </ListSubheader>
-      }
     >
-      {list.map(({ id, name }) => (
+      {list.map(({ id, name, url }) => (
         <NavLink
           key={id}
-          to={`platzi/categories/${id}`}
+          to={`platzi/${url}`}
           className={({ isActive }) => {
             return isActive ? "active" : "";
           }}
