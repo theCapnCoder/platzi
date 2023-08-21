@@ -1,14 +1,6 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
-import apiClient from './apiClient'; // Adjust the path
-
-interface User {
-  id: number;
-  name: string;
-  role: string;
-  email: string;
-  password: string;
-  avatar: string;
-}
+import apiClient from './apiClient';
+import { User } from '../store/users/type';
 
 interface CheckEmailResponse {
   isAvailable: boolean;
