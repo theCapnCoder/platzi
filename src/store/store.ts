@@ -3,20 +3,33 @@ import { apiSlice } from "./api/apiSlice";
 
 import categoriesSlice from "./categories/categoriesSlice";
 import productsSlice from "./products/productsSlice";
-import newProductsSlice from "./newProducts/productsSlice";
 import userSlice from "./user/userSlice";
+import usersSlice from "./users/usersSlice";
+import notificationsSlice from "./notifications/notificationsSlice";
 import { playersSlice } from "./api/playersSlice";
 
 export const store = configureStore({
   reducer: {
     categories: categoriesSlice,
     products: productsSlice,
-    newProducts: newProductsSlice,
     user: userSlice,
+    users: usersSlice,
+    notifications: notificationsSlice,
     [apiSlice.reducerPath]: apiSlice.reducer,
     [playersSlice.reducerPath]: playersSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([apiSlice.middleware, playersSlice.middleware]),
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: {
+          services: {
+            categories: categoriesSlice,
+            products: productsSlice,
+            user: userSlice,
+            users: usersSlice,
+          }
+        }
+      }
+    }).concat([apiSlice.middleware, playersSlice.middleware]),
   devTools: true,
 });
