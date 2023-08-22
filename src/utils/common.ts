@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export const shuffle = (arr: any[]) => [...arr].sort(() => Math.random() - 0.5);
 
 export const buildUrl = (url: string, params: any) => {
@@ -11,3 +13,7 @@ export const buildUrl = (url: string, params: any) => {
 
   return urlWithParams;
 }
+
+export const generateUniqueId = (): string => {
+  return uuidv4();
+};
